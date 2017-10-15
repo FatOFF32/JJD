@@ -15,7 +15,7 @@ public class Task_2_2 {
         char arreyX[] = xstring.toCharArray();
 
         int xmax = 0;
-        int xTek = 0;
+        int xTek;
         for (char c:arreyX) {
             xTek = Character.getNumericValue(c);
             if (xTek > xmax)
