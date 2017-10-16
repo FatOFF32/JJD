@@ -1,9 +1,14 @@
 package Lesson2;
 
+<<<<<<< HEAD
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static java.util.Arrays.*;
+=======
+import static java.util.Arrays.binarySearch;
+import static java.util.Arrays.sort;
+>>>>>>> origin/master
 
 public class Task_3_12 {
         public static void main(String[] args) {
