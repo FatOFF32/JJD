@@ -18,7 +18,8 @@ public class TaskArrays {
         //task_5();
         //task_6();
         //task_8();
-        task_10();
+        //task_10();
+        task_18();
 
     }
 
@@ -153,6 +154,90 @@ public class TaskArrays {
 
     public static void task_10(){
 
+
+    }
+
+    public static void task_14(){
+
+        int [][] array = new int[8][5];
+        for (int i = 0; i < array.length; i++)
+            for (int ii = 0; ii < array[i].length; ii++)
+                array[i][ii] = 10 + (int)(Math.random() * 89);
+
+
+        for (int i = 0; i < array.length;i++)
+            out.println(Arrays.toString(array[i]));
+
+    }
+
+    public static void task_15(){
+
+        int max = 0;
+        int [][] array = new int[5][8];
+        for (int i = 0; i < array.length; i++)
+            for (int ii = 0; ii < array[i].length; ii++) {
+                array[i][ii] = (int) (Math.random() * 198) - 99;
+                max = Integer.max(max, array[i][ii]);
+            }
+
+
+        for (int i = 0; i < array.length;i++)
+            out.println(Arrays.toString(array[i]));
+
+        out.println("Максимальное значение:" + max);
+
+    }
+
+    public static void task_16(){
+
+        int[] indexMax = new int[3];
+        int[][] array = new int[7][4];
+        for(int i = 0; i < array.length; i++) {
+            indexMax[2] = 1;
+            for (int ii = 0; ii < array[i].length; ii++) {
+                array[i][ii] = (int) (Math.random() * 10) - 5;
+                indexMax[2] = indexMax[2] * Math.abs(array[i][ii]);
+            }
+
+            if (indexMax[0] < indexMax[2]) {
+                indexMax[0] = indexMax[2];
+                indexMax[1] = i;
+            }
+            out.println(Arrays.toString(array[i]));
+
+        }
+
+        out.println("Индекс строки с наибольшем по модулю произведением элементов: " + indexMax[1]);
+
+    }
+
+    public static void task_18() {
+
+        String test = new String();
+        int[][] array = new int[2][15];
+        for (int i = 0; i < 15; i++) {
+            int[] arrayTest = getArray();
+            while (test.contains(arrayTest[0] + "x" + arrayTest[1])
+                    || test.contains(arrayTest[1] + "x" + arrayTest[0])
+                    || arrayTest[1] == arrayTest[0]) {
+                arrayTest = getArray();
+            }
+            array[0][i] = arrayTest[0];
+            array[1][i] = arrayTest[1];
+            test = test + arrayTest[0] + "x" + arrayTest[1] + arrayTest[1] + "x" + arrayTest[0];
+
+        }
+        out.println(Arrays.toString(array[0]));
+        out.println(Arrays.toString(array[1]));
+    }
+
+    public static int[] getArray(){
+
+        int[] arrayTest = new int[2];
+        arrayTest[0] = 2 + (int) (Math.random() * 7);
+        arrayTest[1] = 2 + (int) (Math.random() * 7);
+
+        return arrayTest;
 
     }
 
