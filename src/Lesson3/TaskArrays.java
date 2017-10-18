@@ -20,6 +20,7 @@ public class TaskArrays {
         //task_8();
         //task_10();
         task_18();
+        //fgggf
 
     }
 
