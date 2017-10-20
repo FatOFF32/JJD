@@ -1,5 +1,6 @@
 package Lesson3;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
@@ -7,10 +8,12 @@ import java.util.Scanner;
 import static java.lang.System.out;
 
 public class TaskArrays {
+    public static final Charset UTF_8 = Charset.forName("UTF-8");
+
     public static void main(String[] args) {
 
         // Бонусная задача
-        //bonusTask();
+        bonusTask();
         //task_1();
         //task_2();
         //task_3();
@@ -19,8 +22,10 @@ public class TaskArrays {
         //task_6();
         //task_8();
         //task_10();
-        task_18();
-        //fgggf
+        //task_14();
+        //task_15();
+        //task_16();
+        //task_18();
 
     }
 
@@ -261,16 +266,41 @@ public class TaskArrays {
 
     }
 
-    public static String koding(String text, String key){
+    // Бонусная задача
+    public static void bonusTask2() {
+        Scanner scr = new Scanner(System.in);
 
-        byte[] bytetext = text.getBytes();
-        byte[] bytekey = key.getBytes();
+        out.println("Введите слово для кодировки:");
+        String text = scr.nextLine();
 
-        for (int i = 0; i < bytetext.length; i++)
-            bytetext[i] ^= bytekey[i%bytekey.length];
-        return new String(bytetext);
+        out.println("Введите ключ для кодировки:");
+        String key = scr.nextLine();
+
+        byte[] encoded = koding(text.getBytes(), key.getBytes());
+        out.println(new String(encoded));
+
+        String unCod = new String(koding(encoded, key.getBytes()));
+        out.println(unCod);
 
     }
 
+
+    public static String koding(String text, String key){
+
+        byte[] bytetext = text.getBytes(UTF_8);
+        byte[] bytekey = key.getBytes(UTF_8);
+
+        for (int i = 0; i < bytetext.length; i++)
+            bytetext[i] ^= bytekey[i%bytekey.length];
+        return new String(bytetext, UTF_8);
+
+    }
+
+    public static byte[] koding(byte[] bytetext, byte[] bytekey){
+        for (int i = 0; i < bytetext.length; i++)
+            bytetext[i] ^= bytekey[i%bytekey.length];
+
+        return bytetext;
+    }
 }
 
