@@ -22,6 +22,7 @@ public class Library {
         out.println("После операции осталось " + library.get(book3,10));
 
         out.println("После операции осталось " + library.get(book2,10));
+        library.get(new Book(new String("Не известный") , new String("книга-фига"),  30), 45);
     }
 
     public int get(Book book, int quantity){
@@ -33,8 +34,10 @@ public class Library {
             }
         }
 
-        if(arrayBooksShelf[i] == null || arrayBooksShelf[i].book != book)
+        if(arrayBooksShelf[i] == null || arrayBooksShelf[i].book != book){
             out.println("Такой книги в библиотеке нет!");
+            return -1;
+        }
         else if (arrayBooksShelf[i].quantity < quantity)
             out.println("Запрошенного количества книг (" + quantity + " шт.) нет в библиотеке! Остаток книг: " + arrayBooksShelf[i].quantity);
         else
