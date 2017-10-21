@@ -2,7 +2,7 @@ package Lesson5.Figure;
 
 import static java.lang.System.out;
 
-public class Figure {
+public class Figure { 
 
     Point a;
     Point b;
