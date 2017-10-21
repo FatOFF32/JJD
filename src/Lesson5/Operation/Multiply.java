@@ -1,10 +1,6 @@
-package Lesson5;
+package Lesson5.Operation;
 
 public class Multiply extends Operation {
-
-//    public Multiply(int a, int b){
-//        super(a, b);
-//    }
 
     int getResult(){
         return a * b;

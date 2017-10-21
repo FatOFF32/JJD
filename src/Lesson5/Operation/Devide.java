@@ -1,10 +1,6 @@
-package Lesson5;
+package Lesson5.Operation;
 
 public class Devide extends Operation {
-
-//    public Devide(int a, int b){
-//        super(a, b);
-//    }
 
     int getResult(){
         return a / b;
