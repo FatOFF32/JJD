@@ -86,7 +86,7 @@ public class LinkedList implements List, Queue, Stack{
     @Override
     public int size() {
 
-        // Так будет дешевле колучать количесто...
+        // Так будет дешевле получать количесто...
         return size;
 
 //        Item item = head;
@@ -130,6 +130,7 @@ public class LinkedList implements List, Queue, Stack{
 
         // ещем Item простым перебором.
         // Если передали -1, значит возвращаем последний заполненный
+        //      (Можно было обойтись и без этого, т.к. потом добавили переменную size)
         // если не нашли, возвращаем null
         while (item != null){
             if(i++ == idx || idx < 0 && item.next == null)
