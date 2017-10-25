@@ -106,8 +106,9 @@ public class ArrayList implements List, Queue, Stack{
         if(objects.length == size){
             Object [] objectsClone = objects.clone();
             objects = new Object[(int)(size * 1.5)];
-            for (int i = 0; i < objectsClone.length; i++)
-                objects[i] = objectsClone[i];
+            System.arraycopy(objectsClone, 0, objects, 0, objectsClone.length);
+//            for (int i = 0; i < objectsClone.length; i++)
+//                objects[i] = objectsClone[i];
         }
     }
 }
