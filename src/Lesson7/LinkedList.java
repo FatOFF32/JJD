@@ -9,6 +9,11 @@ public class LinkedList implements List{
     Item head;
     private int size; // Для подсчета количества элементов в листе
 
+    @Override
+    public List getCopyList() {
+        return new LinkedList();
+    }
+
     public static void main(String[] args) {
 
 //        // Задание 2
@@ -23,14 +28,16 @@ public class LinkedList implements List{
 //        for (Object o:linkedList)
 //            out.println(o.toString());
 
+        // Задание 3
         LinkedList linkedList = new LinkedList();
-        linkedList.add("b");
+        linkedList.add("aa");
         linkedList.add("s");
-        linkedList.add("d");
+        linkedList.add("df");
         linkedList.add("a");
-        linkedList.add("e");
+        linkedList.add("ee");
         linkedList.add("f");
 
+        // Задание 3_а
         Object o = Utils.find(new Predicate() {
             @Override
             public boolean apply(Object o) {
@@ -39,6 +46,23 @@ public class LinkedList implements List{
         }, linkedList);
 
         out.println(o.toString());
+
+        out.println("-------------");
+
+        // Задание 3_б
+        List list = Utils.filter(new Predicate() {
+            @Override
+            public boolean apply(Object o) {
+                return o.toString().length() == 1;
+            }
+        }, linkedList);
+
+        for(Object o1 : list)
+            out.println(o1.toString());
+
+        // Задание 3_в
+
+
     }
 
     @Override

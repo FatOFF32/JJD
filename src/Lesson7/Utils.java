@@ -1,7 +1,9 @@
 package Lesson7;
 
 
-public class Utils {
+public final class Utils {
+
+    private Utils(){};
 
     public static Object find(Predicate pred, List list){
 
@@ -12,10 +14,17 @@ public class Utils {
         return null;
     }
 
-//    public static List filter(Predicate pred, List list){
-//
-//        List listReturn = list.clone();
-//        return listReturn;
-//    }
+    public static List filter(Predicate pred, List list){
+
+        List listReturn = list.getCopyList();
+        for (Object o : list)
+            if(pred.apply(o))
+                listReturn.add(o);
+        return listReturn;
+    }
+
+    public static List transform(Transformer trans, List list){
+        return null;
+    }
 }
 
