@@ -16,8 +16,10 @@ public class LinkedList implements List{
 
     public static void main(String[] args) {
 
+        LinkedList linkedList = new LinkedList();
+//        ArrayList linkedList = new ArrayList();
+
 //        // Задание 2
-//        LinkedList linkedList = new LinkedList();
 //        linkedList.add(new Integer(1));
 //        linkedList.add(new Integer(2));
 //        linkedList.add(new Integer(3));
@@ -29,7 +31,6 @@ public class LinkedList implements List{
 //            out.println(o.toString());
 
         // Задание 3
-        LinkedList linkedList = new LinkedList();
         linkedList.add("aa");
         linkedList.add("s");
         linkedList.add("df");
@@ -60,8 +61,18 @@ public class LinkedList implements List{
         for(Object o1 : list)
             out.println(o1.toString());
 
-        // Задание 3_в
+        out.println("-------------");
 
+        // Задание 3_в
+        List list1 = Utils.transform(new Transformer() {
+            @Override
+            public String apply(Object o) {
+                return o.toString() + o.toString();
+            }
+        }, linkedList);
+
+        for (Object o2 : list1)
+            out.println(o2.toString());
 
     }
 
@@ -94,15 +105,17 @@ public class LinkedList implements List{
     public Iterator iterator() {
 
         return new Iterator() {
-            int i = 0;
+            Item item = head;
             @Override
             public boolean hasNext() {
-                return i < size;
+                return item != null;
             }
 
             @Override
             public Object next() {
-                return get(i++);
+                Object o = item.value;
+                item = item.next;
+                return o;
             }
         };
     }
@@ -147,7 +160,6 @@ public class LinkedList implements List{
 
     }
 
-
     // Служебные процедуры
     private Item getItem(int idx){
 
@@ -173,4 +185,14 @@ public class LinkedList implements List{
         }
         return false;
     }
+
+    @Override
+    public void push(Object object) {
+
+        Item item = new Item(object);
+        item.next = head;
+        head = item;
+        size++;
+    }
+
 }

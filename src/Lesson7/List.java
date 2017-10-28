@@ -7,5 +7,6 @@ public interface List extends Iterable, Cloneable{
     Object remove(int index);
     int size();
     List getCopyList();
+    void push(Object object);
 
 }
