@@ -195,4 +195,33 @@ public class LinkedList implements List{
         size++;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LinkedList that = (LinkedList) o;
+
+        if (size != that.size) return false;
+
+        Item item = head;
+        Item thatItem = that.head;
+        while (item != null)
+            if(!item.equals(thatItem))
+                return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+
+        Item item = head;
+        int result = 0;
+
+        while (item != null){
+            result = 31 * result + size;
+            item = item.next;
+        }
+        return result;
+    }
 }
