@@ -8,5 +8,6 @@ public interface List extends Iterable, Cloneable{
     int size();
     List getCopyList();
     void push(Object object);
+    List cloneList() throws CloneNotSupportedException;
 
 }

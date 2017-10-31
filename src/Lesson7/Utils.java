@@ -51,15 +51,22 @@ public final class Utils {
         return listReturn;
     }
 
-    public static List difference(List list1, List list2, Predicate2 pred){
+    public static List difference(List list1, List list2, Predicate2 pred) throws CloneNotSupportedException {
 
         List listReturn = list1.getCopyList();
+        boolean addToList;
 
-        for (Object o1 : list1)
+        for (Object o1 : list1) {
+            addToList = true;
             for (Object o2 : list2)
                 if (pred == null && o1.equals(o2)
-                        || pred != null && !pred.apply(o1, o2))
-                    listReturn.add(o1);
+                        || pred != null && pred.apply(o1, o2)) {
+                    addToList = false;
+                    break;
+                }
+            if (addToList) listReturn.add(o1);
+        }
+
         return listReturn;
     }
 }

@@ -1,10 +1,12 @@
 package Lesson7;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import java.util.Iterator;
 
 import static java.lang.System.out;
 
-public class LinkedList implements List{
+public class LinkedList implements List, Cloneable{
 
     Item head;
     private int size; // Для подсчета количества элементов в листе
@@ -15,64 +17,6 @@ public class LinkedList implements List{
     }
 
     public static void main(String[] args) {
-
-        LinkedList linkedList = new LinkedList();
-//        ArrayList linkedList = new ArrayList();
-
-//        // Задание 2
-//        linkedList.add(new Integer(1));
-//        linkedList.add(new Integer(2));
-//        linkedList.add(new Integer(3));
-//        linkedList.add(new Integer(4));
-//        linkedList.add(new Integer(5));
-//        linkedList.add(new Integer(6));
-//
-//        for (Object o:linkedList)
-//            out.println(o.toString());
-
-        // Задание 3
-        linkedList.add("aa");
-        linkedList.add("s");
-        linkedList.add("df");
-        linkedList.add("a");
-        linkedList.add("ee");
-        linkedList.add("f");
-
-        // Задание 3_а
-        Object o = Utils.find(new Predicate() {
-            @Override
-            public boolean apply(Object o) {
-                return "a".equals(o);
-            }
-        }, linkedList);
-
-        out.println(o.toString());
-
-        out.println("-------------");
-
-        // Задание 3_б
-        List list = Utils.filter(new Predicate() {
-            @Override
-            public boolean apply(Object o) {
-                return o.toString().length() == 1;
-            }
-        }, linkedList);
-
-        for(Object o1 : list)
-            out.println(o1.toString());
-
-        out.println("-------------");
-
-        // Задание 3_в
-        List list1 = Utils.transform(new Transformer() {
-            @Override
-            public String apply(Object o) {
-                return o.toString() + o.toString();
-            }
-        }, linkedList);
-
-        for (Object o2 : list1)
-            out.println(o2.toString());
 
     }
 
@@ -206,10 +150,34 @@ public class LinkedList implements List{
 
         Item item = head;
         Item thatItem = that.head;
-        while (item != null)
-            if(!item.equals(thatItem))
+        while (item != null) {
+            if (!item.equals(thatItem))
                 return false;
+            item = item.next;
+            thatItem = thatItem.next;
+        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+
+        Item item = head;
+
+        if(item == null) return "";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        while (item != null) {
+            sb.append(item.value.toString()).append(", ");
+            item = item.next;
+        }
+
+        sb.delete(sb.length() - 2, sb.length());
+        sb.append("]");
+
+        return sb.toString();
     }
 
     @Override
@@ -219,9 +187,26 @@ public class LinkedList implements List{
         int result = 0;
 
         while (item != null){
+            result = item.hashCode();
             result = 31 * result + size;
             item = item.next;
         }
         return result;
     }
+
+    @Override
+    public List cloneList() throws CloneNotSupportedException {
+        return (List) this.clone();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+
+        LinkedList listClone = new LinkedList();
+
+        for (Object o : this) listClone.add(o);
+
+        return listClone;
+    }
+
 }

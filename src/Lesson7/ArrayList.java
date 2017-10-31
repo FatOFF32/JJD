@@ -11,8 +11,14 @@ public class ArrayList implements List {
         return new ArrayList();
     }
 
+
     Object[] objects = new Object[5];
     private int size; // Для подсчета количества элементов в листе
+
+    @Override
+    public List cloneList() throws CloneNotSupportedException {
+        return (List) this.clone();
+    }
 
     public static void main(String[] args) {
 
