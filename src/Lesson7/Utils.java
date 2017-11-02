@@ -1,6 +1,8 @@
 package Lesson7;
 
 
+import java.util.Iterator;
+
 public final class Utils {
 
     private Utils() {
@@ -68,6 +70,18 @@ public final class Utils {
         }
 
         return listReturn;
+    }
+
+    public static Iterable filterView(Iterable it, Predicate pred){
+
+        return new ViewIterable();
+    }
+
+    static class ViewIterable implements Iterable{
+        @Override
+        public Iterator iterator() {
+            return null;
+        }
     }
 }
 
