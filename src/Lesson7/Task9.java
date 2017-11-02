@@ -19,8 +19,26 @@ public class Task9 {
         list2.add(20);
         list2.add(30);
         list2.add(40);
-        list2.add(50);
-        list2.add(60);
+
+        Iterable itList1 = Utils.filterView(new Predicate() {
+            @Override
+            public boolean apply(Object o) {
+                return ((int) o) % 2 == 0;
+            }
+        }, list1);
+        Iterable itList2 = Utils.transformView(new Transformer2() {
+            @Override
+            public int apply(Object o) {
+                return ((int) o) / 5;
+            }
+        }, list2);
+
+        Iterable itResult = Utils.view(itList1, itList2);
+
+        for (Object o :
+                itResult) {
+            System.out.println(o.toString());
+        }
 
 
     }
