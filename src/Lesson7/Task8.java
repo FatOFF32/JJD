@@ -63,49 +63,49 @@ public class Task8 {
 //        System.out.println(list4.toString());
 //
 //        // Задание 3
-//        File dir1 = new File("D:\\Учеба JAVA\\ДЗ\\Сравнение объектов\\Каталог 1");
-//        File dir2 = new File("D:\\Учеба JAVA\\ДЗ\\Сравнение объектов\\Каталог 2");
-//
-//        List files1 = Utils.toList(dir1.listFiles());
-//        List files2 = Utils.toList(dir2.listFiles());
-//
-//        List duplicated = Utils.intersect(files1, files2, new Predicate2() {
-//            @Override
-//            public boolean apply(Object o1, Object o2) {
-//                File file1 = (File) o1;
-//                File file2 = (File) o2;
-//                return file1.getName().equals(file2.getName());
-//            }
-//        });
-//
-//        System.out.println("Файлы с одинаковым именем: " + duplicated.toString());
-//
-//        Object fife3txt = Utils.find(new Predicate() {
-//            @Override
-//            public boolean apply(Object o) {
-//                return ((File) o).getName().equals("3.txt");
-//            }
-//        }, files1);
-//
-//        System.out.println("Нашли файл: " + fife3txt);
-//
-//        List listFilter = Utils.filter(new Predicate() {
-//            @Override
-//            public boolean apply(Object o) {
-//                return ((File) o).length() < (long) 1048576;
-//            }
-//        }, files1);
-//
-//        System.out.println("Файлы размером меньше 1 МБ: " + listFilter.toString());
-//
-//        List listFilter2 = Utils.filter(new Predicate() {
-//            @Override
-//            public boolean apply(Object o) {
-//                return getFileExtension((File) o).equals("java");
-//            }
-//        }, files1);
-//
-//        System.out.println("Фильтр файлов с расширение java: " + listFilter2.toString());
+        File dir1 = new File("D:\\Учеба JAVA\\ДЗ\\Сравнение объектов\\Каталог 1");
+        File dir2 = new File("D:\\Учеба JAVA\\ДЗ\\Сравнение объектов\\Каталог 2");
+
+        List files1 = Utils.toList(dir1.listFiles());
+        List files2 = Utils.toList(dir2.listFiles());
+
+        List duplicated = Utils.intersect(files1, files2, new Predicate2() {
+            @Override
+            public boolean apply(Object o1, Object o2) {
+                File file1 = (File) o1;
+                File file2 = (File) o2;
+                return file1.getName().equals(file2.getName());
+            }
+        });
+
+        System.out.println("Файлы с одинаковым именем: " + duplicated.toString());
+
+        Object fife3txt = Utils.find(new Predicate() {
+            @Override
+            public boolean apply(Object o) {
+                return ((File) o).getName().equals("3.txt");
+            }
+        }, files1);
+
+        System.out.println("Нашли файл: " + fife3txt);
+
+        List listFilter = Utils.filter(new Predicate() {
+            @Override
+            public boolean apply(Object o) {
+                return ((File) o).length() < (long) 1048576;
+            }
+        }, files1);
+
+        System.out.println("Файлы размером меньше 1 МБ: " + listFilter.toString());
+
+        List listFilter2 = Utils.filter(new Predicate() {
+            @Override
+            public boolean apply(Object o) {
+                return getFileExtension((File) o).equals("java");
+            }
+        }, files1);
+
+        System.out.println("Фильтр файлов с расширение java: " + listFilter2.toString());
 
 
     }

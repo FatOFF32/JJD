@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import static java.lang.System.out;
 
-public class LinkedList implements List, Cloneable{
+public class LinkedList <T> implements List<T>, Cloneable{
 
     Item head;
     private int size; // Для подсчета количества элементов в листе
@@ -21,7 +21,7 @@ public class LinkedList implements List, Cloneable{
     }
 
     @Override
-    public void add(Object object) {
+    public void add(T object) {
 
         Item item = getItem(-1);
         if (item == null)
@@ -32,7 +32,7 @@ public class LinkedList implements List, Cloneable{
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
 
         if(listEmpty())
             return null;
@@ -42,7 +42,7 @@ public class LinkedList implements List, Cloneable{
             out.println("По этому индексу [" + index + "] ничего не нашлось.");
             return null;
         }
-        return item.value;
+        return (T)item.value;
     }
 
     @Override
@@ -56,8 +56,8 @@ public class LinkedList implements List, Cloneable{
             }
 
             @Override
-            public Object next() {
-                Object o = item.value;
+            public T next() {
+                T o = (T) item.value;
                 item = item.next;
                 return o;
             }
@@ -65,9 +65,9 @@ public class LinkedList implements List, Cloneable{
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
 
-        Object object;
+        T object;
         Item item;
 
         // Проверка на заполненность списка
@@ -76,7 +76,7 @@ public class LinkedList implements List, Cloneable{
 
         // Удаление head
         if (index == 0){
-            object = head.value;
+            object = (T) head.value;
             head = head.next;
             size--;
             return object;
@@ -90,7 +90,7 @@ public class LinkedList implements List, Cloneable{
         }
 
         // Все проверки прошли, удаляем элемент, перепривязываем next, возвращаем удаленный объект.
-        object = item.next.value;
+        object = (T) item.next.value;
         item.next = item.next.next;
         size--;
 

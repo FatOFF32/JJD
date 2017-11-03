@@ -1,13 +1,13 @@
 package Lesson7;
 
-public interface List extends Iterable, Cloneable{
+public interface List <T> extends Iterable <T>, Cloneable{
 
-    void add(Object object);
-    Object get(int index);
-    Object remove(int index);
+    void add(T object);
+    T get(int index);
+    T remove(int index);
     int size();
     List getCopyList();
-    void push(Object object);
+    void push(T object);
     List cloneList() throws CloneNotSupportedException;
 
 }
