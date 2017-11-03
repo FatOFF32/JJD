@@ -184,11 +184,11 @@ public class LinkedList implements List, Cloneable{
     public int hashCode() {
 
         Item item = head;
-        int result = 0;
+        int result = 1;
 
         while (item != null){
-            result = item.hashCode();
-            result = 31 * result + size;
+            //result = item.hashCode();
+            result = result * 31 + item.hashCode();// + size;
             item = item.next;
         }
         return result;
