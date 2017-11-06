@@ -1,4 +1,4 @@
-package com.itmo.collections.inner;
+package collections.inner;
 
 import java.util.*;
 

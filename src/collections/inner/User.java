@@ -1,4 +1,4 @@
-package com.itmo.collections.inner;
+package collections.inner;
 
 /**
  * Created by xmitya on 20.10.16.

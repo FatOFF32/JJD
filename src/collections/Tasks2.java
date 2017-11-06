@@ -1,15 +1,15 @@
-package com.itmo.collections;
+package collections;
 
-import com.itmo.collections.inner.Message;
-import com.itmo.collections.inner.MessagePriority;
-import com.itmo.collections.inner.User;
+import collections.inner.Message;
+import collections.inner.MessagePriority;
+import collections.inner.User;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
 
-import static com.itmo.collections.inner.UserGenerator.generate;
+import static collections.inner.UserGenerator.generate;
 
 /**
  * Created by xmitya on 20.10.16.

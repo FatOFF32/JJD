@@ -1,8 +1,8 @@
-package com.itmo.collections;
+package collections;
 
-import com.itmo.collections.inner.MessageGenerator;
-import com.itmo.collections.inner.Message;
-import com.itmo.collections.inner.MessagePriority;
+import collections.inner.MessageGenerator;
+import collections.inner.Message;
+import collections.inner.MessagePriority;
 
 import java.util.Collection;
 import java.util.List;

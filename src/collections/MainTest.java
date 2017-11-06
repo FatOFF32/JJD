@@ -1,4 +1,4 @@
-package com.itmo.collections;
+package collections;
 
 import java.util.ArrayList;
 import java.util.List;

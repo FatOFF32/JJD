@@ -1,10 +1,9 @@
-package com.itmo.collections;
+package collections;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by xmitya on 07.04.17.
@@ -12,7 +11,7 @@ import java.util.List;
 public class ReadWords {
     public static void main(String[] args) throws IOException {
         // Создаем файл, указывая путь к текстовому файлу на диске
-        File text = new File("lorem.txt");
+        File text = new File("D:\\Учеба JAVA\\ДЗ\\wp\\wp.txt");
 
         // Вычитываем все строки из файла
         List<String> lines = Files.readAllLines(text.toPath());
@@ -35,8 +34,39 @@ public class ReadWords {
             }
         }
 
+        // Частота встечаемых слов задание 1
+        Map<String, Integer> wordCur = new HashMap<>();
+        Integer count;
         for (String word : words) {
-            System.out.println(word);
+            if (!word.isEmpty()){
+                count = wordCur.get(word);
+                if (count == null)
+                    count = 0;
+                wordCur.put(word, ++count);
+            }
         }
+//        for (Map.Entry<String, Integer> entry: wordCur.entrySet())
+//            System.out.println(entry.getKey() + " : " + entry.getValue());
+
+        // Количество слов по количеству букв задание 2
+        ArrayList<String> arr;
+        Map<Integer, ArrayList> wordLength = new TreeMap<>();
+        for (String word : wordCur.keySet()){
+            if (!word.isEmpty()){
+                arr = wordLength.get(word.length());
+                if (arr != null)
+                    arr.add(word);
+                else {
+                    arr = new ArrayList<>();
+                    arr.add(word);
+                    wordLength.put(word.length(), arr);
+                }
+            }
+        }
+
+        for (Map.Entry<Integer, ArrayList> entry: wordLength.entrySet())
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+
+
     }
 }

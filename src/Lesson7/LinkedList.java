@@ -131,7 +131,7 @@ public class LinkedList <T> implements List<T>, Cloneable{
     }
 
     @Override
-    public void push(Object object) {
+    public void push(T object) {
 
         Item item = new Item(object);
         item.next = head;
