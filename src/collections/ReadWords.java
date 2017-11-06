@@ -67,6 +67,15 @@ public class ReadWords {
         for (Map.Entry<Integer, ArrayList> entry: wordLength.entrySet())
             System.out.println(entry.getKey() + " : " + entry.getValue());
 
+        // Самые встречаемые фразы задание 3
+        List<Map.Entry> list = new ArrayList<>(wordCur.entrySet());
+//        Collections.sort(list, new Comparator<Map.Entry>() {
+//            @Override
+//            public int compare(Map.Entry o1, Map.Entry o2) {
+//                return o1.getValue() - o2.getValue();
+//            }
+//        });
+
 
     }
 }
