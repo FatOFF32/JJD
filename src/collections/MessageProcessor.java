@@ -18,6 +18,10 @@ public class MessageProcessor {
     private static final String SEPARATOR_1 = " ";
     private static final String SEPARATOR_2 = ",";
 
+    private ArrayList<Message> arrMessage = new ArrayList<>();
+    private Stack<ArrayList> stack = new Stack<>();
+    private Stack<ArrayList> stackUndo = new Stack<>();
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         MessageProcessor processor = new MessageProcessor();
@@ -78,12 +82,22 @@ public class MessageProcessor {
     }
 
     private void newMessage(Message message) {
+
+        arrMessage.add(message);
         System.out.println("Added message for processing: " + message);
 
     }
 
     private void processMessages() {
 
+        ArrayList<Message> arrClone = new ArrayList<>();
+        arrClone.addAll(arrMessage);
+
+        stack.push(arrClone);
+
+        System.out.println(stack.toString());
+
+        arrMessage.clear();
     }
 
     private void process(Message message) {
@@ -96,11 +110,23 @@ public class MessageProcessor {
 
     private void undo(int steps) {
 
+        for (int i = 0; i < steps; i++) {
+            if (stack.empty()) break;
+            stackUndo.push(stack.pop());
+        }
 
+        System.out.println(stack.toString());
+        System.out.println(stackUndo.toString());
 
     }
 
     private void redo(int steps) {
+        for (int i = 0; i < steps; i++) {
+            if (stackUndo.empty()) break;
+            stack.push(stackUndo.pop());
+        }
 
+        System.out.println(stack.toString());
+        System.out.println(stackUndo.toString());
     }
 }

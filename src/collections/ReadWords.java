@@ -64,17 +64,49 @@ public class ReadWords {
             }
         }
 
-        for (Map.Entry<Integer, ArrayList> entry: wordLength.entrySet())
-            System.out.println(entry.getKey() + " : " + entry.getValue());
+//        for (Map.Entry<Integer, ArrayList> entry: wordLength.entrySet())
+//            System.out.println(entry.getKey() + " : " + entry.getValue());
 
         // Самые встречаемые фразы задание 3
         List<Map.Entry> list = new ArrayList<>(wordCur.entrySet());
-//        Collections.sort(list, new Comparator<Map.Entry>() {
-//            @Override
-//            public int compare(Map.Entry o1, Map.Entry o2) {
-//                return o1.getValue() - o2.getValue();
-//            }
-//        });
+        Collections.sort(list, new Comparator<Map.Entry>() {
+            @Override
+            public int compare(Map.Entry o1, Map.Entry o2) {
+                Integer v1 = (Integer) o1.getValue();
+                Integer v2 = (Integer) o2.getValue();
+                return v2.compareTo(v1);
+            }
+        });
+
+        System.out.println("Самые популярные слова:");
+        int i = 0;
+        for (Map.Entry entry : list){
+            System.out.println(entry.getKey() + " количество повторений : " + entry.getValue());
+            i++;
+            if (i == 10) break;
+        }
+
+        // Частота встречаемости букв. Задание 5
+        double numberOfChar = 0;
+        Integer curChar;
+        char[] strChar;
+        Map<Character, Integer> symbols = new TreeMap<>((o1, o2) -> o1.compareTo(o2));
+        for (String word : wordCur.keySet()){
+            strChar = word.toCharArray();
+            for (char ch : strChar){
+                curChar = symbols.get(ch);
+                if (curChar == null)
+                    curChar = 0;
+                curChar += 1;
+                symbols.put(ch,curChar);
+                numberOfChar++;
+            }
+        }
+
+        for (Map.Entry<Character, Integer> entry : symbols.entrySet()){
+            System.out.println(entry.getKey() + " встречается " + entry.getValue()
+                    + " раз, что составляет " + String.format("%.2f", (double) entry.getValue() * 100 / numberOfChar) + "%");
+        }
 
 
     }

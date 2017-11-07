@@ -4,8 +4,7 @@ import collections.inner.MessageGenerator;
 import collections.inner.Message;
 import collections.inner.MessagePriority;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by xmitya on 17.10.16.
@@ -31,21 +30,44 @@ public class Tasks1 {
         // Сосчитайте количество сообщений для каждого приоритета.
         // Ответ необходимо вывести в консоль.
 
-        // TODO implement
+        Integer cur;
+        Map<MessagePriority, Integer> map = new HashMap<>();
+        for (Message mes : messages){
+            cur = map.get(mes.getPriority());
+            if (cur == null)
+                cur = 0;
+            cur += 1;
+            map.put(mes.getPriority(), cur);
+        }
+
+        System.out.println(map);
+
     }
 
     private static void countCountEachCode(List<Message> messages) {
         // Сосчитайте количество сообщений для каждого кода сообщения.
         // Ответ необходимо вывести в консоль.
 
-        // TODO implement
+        Integer cur;
+        Map<Integer, Integer> map = new HashMap<>();
+        for(Message mes : messages){
+            cur = map.get(mes.getCode());
+            if (cur == null)
+                cur = 0;
+            cur += 1;
+            map.put(mes.getCode(), cur);
+        }
+
+        System.out.println(map);
     }
 
     private static void countUniqueMessages(List<Message> messages) {
         // Сосчитайте количество уникальных сообщений.
         // Ответ необходимо вывести в консоль.
 
-        // TODO implement
+        HashSet<Message> hashSet = new HashSet<>(messages);
+
+        System.out.println(hashSet.size());
     }
 
     private static List<Message> genuineMessagesInOriginalOrder(List<Message> messages) {
@@ -56,9 +78,9 @@ public class Tasks1 {
         // [{URGENT, 4}, {HIGH, 9}, {LOW, 3}].
         // Т.е. остались только уникальные значения, и порядок их поступления сохранен.
 
-        // TODO implement
+        LinkedHashSet<Message> lhs = new LinkedHashSet<>(messages);
 
-        return messages;
+        return new ArrayList<Message>(lhs);
     }
 
     private static void removeEach(Collection<Message> messages, MessagePriority priority) {
