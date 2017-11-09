@@ -30,6 +30,7 @@ public class Tasks1 {
         // Сосчитайте количество сообщений для каждого приоритета.
         // Ответ необходимо вывести в консоль.
 
+        // Способ 1, до java 8
         Integer cur;
         Map<MessagePriority, Integer> map = new HashMap<>();
         for (Message mes : messages){
@@ -41,6 +42,12 @@ public class Tasks1 {
         }
 
         System.out.println(map);
+
+        // Способ 2. Симпатишный но только в JAVA 8 и выше
+        Map<MessagePriority, Integer> map1= new HashMap<>();
+        for (Message mes : messages)
+            map1.merge(mes.getPriority(), 1, (integer, integer2) -> integer + integer2);
+        System.out.println(map1);
 
     }
 
@@ -59,6 +66,13 @@ public class Tasks1 {
         }
 
         System.out.println(map);
+
+        // Способ 2. Симпатишный но только в JAVA 8 и выше
+        Map<Integer, Integer> map1= new HashMap<>();
+        for (Message mes : messages) {
+            map1.merge(mes.getCode(), 1, (integer, integer2) -> integer + integer2);
+        }
+        System.out.println(map1);
     }
 
     private static void countUniqueMessages(List<Message> messages) {
@@ -80,14 +94,14 @@ public class Tasks1 {
 
         LinkedHashSet<Message> lhs = new LinkedHashSet<>(messages);
 
-        return new ArrayList<Message>(lhs);
+        return new ArrayList<>(lhs);
     }
 
     private static void removeEach(Collection<Message> messages, MessagePriority priority) {
         // Удалить из коллекции каждое сообщение с заданным приоритетом.
         System.out.printf("Before remove each: %s, %s\n", priority, messages);
 
-        // TODO implement
+        messages.removeIf(message -> message.getPriority() == priority);
 
         System.out.printf("After remove each: %s, %s\n", priority, messages);
     }
@@ -96,7 +110,7 @@ public class Tasks1 {
         // Удалить из коллекции все сообщения, кроме тех, которые имеют заданный приоритет.
         System.out.printf("Before remove other: %s, %s\n", priority, messages);
 
-        // TODO implement
+        messages.removeIf(message -> message.getPriority() != priority);
 
         System.out.printf("After remove other: %s, %s\n", priority, messages);
     }
