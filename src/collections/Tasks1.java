@@ -5,6 +5,7 @@ import collections.inner.Message;
 import collections.inner.MessagePriority;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Created by xmitya on 17.10.16.
@@ -110,7 +111,12 @@ public class Tasks1 {
         // Удалить из коллекции все сообщения, кроме тех, которые имеют заданный приоритет.
         System.out.printf("Before remove other: %s, %s\n", priority, messages);
 
-        messages.removeIf(message -> message.getPriority() != priority);
+        messages.removeIf(new Predicate<Message>() {
+            @Override
+            public boolean test(Message message) {
+                return message.getPriority() != priority;
+            }
+        });
 
         System.out.printf("After remove other: %s, %s\n", priority, messages);
     }
