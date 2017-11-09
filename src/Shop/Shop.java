@@ -18,10 +18,14 @@ public class Shop {
         shop.addProduct(new Product("id444", "Пельмени", "Независимый мужчина", 250), 15);
 
         // проверки
-        System.out.println(shop);
+        System.out.println(shop.getWarehaus());
     }
 
     public void addProduct(Product product, Integer count){
         warehaus.merge(product, count, (integer, integer2) -> integer + integer2);
+    }
+
+    public Map<Product, Integer> getWarehaus() {
+        return warehaus;
     }
 }
