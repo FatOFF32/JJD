@@ -5,7 +5,8 @@ import java.util.Map;
 
 public class Shop {
 
-    private Map<Product, Integer> warehaus = new HashMap<>();
+    private Map<String, Integer> warehaus = new HashMap<>();
+    private Map<String, Product> products = new HashMap<>();
 
     public static void main(String[] args) {
 
@@ -22,10 +23,11 @@ public class Shop {
     }
 
     public void addProduct(Product product, Integer count){
-        warehaus.merge(product, count, (integer, integer2) -> integer + integer2);
+        products.put(product.getId(),product);
+        warehaus.merge(product.getId(), count, (integer, integer2) -> integer + integer2);
     }
 
-    public Map<Product, Integer> getWarehaus() {
+    public Map<String, Integer> getWarehaus() {
         return warehaus;
     }
 }
