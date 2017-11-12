@@ -18,4 +18,20 @@ public class User {
     public boolean checkPass(String pass){
         return password.equals(pass);
     }
+
+    public int getAccount() {
+        return account;
+    }
+
+    public void writeOffMoney(int count){
+        account -= count;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", account=" + account +
+                '}';
+    }
 }

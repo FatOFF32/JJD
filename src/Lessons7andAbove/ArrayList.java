@@ -37,8 +37,8 @@ public class ArrayList implements List {
 
             @Override
             public boolean hasNext() {
-                // Проверка срабатывания исключения.
-                if (i == 5) size++;
+//                // Проверка срабатывания исключения.
+//                if (i == 5) size++;
                 return i < size;
             }
 
