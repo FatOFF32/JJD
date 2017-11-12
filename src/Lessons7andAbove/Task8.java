@@ -1,4 +1,4 @@
-package Lesson7;
+package Lessons7andAbove;
 
 import java.io.File;
 

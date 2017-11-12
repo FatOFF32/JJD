@@ -1,7 +1,6 @@
-package Lesson7;
+package Lessons7andAbove;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import static java.lang.System.out;
@@ -37,6 +36,9 @@ public class LinkedList <T> implements List<T>, Cloneable{
         if(listEmpty())
             return null;
 
+        if(index > size)
+            throw new MyIndexOutOfBoundsException("Индекс находится за пределами массива!");
+
         Item item = getItem(index);
         if (item == null){
             out.println("По этому индексу [" + index + "] ничего не нашлось.");
@@ -47,16 +49,20 @@ public class LinkedList <T> implements List<T>, Cloneable{
 
     @Override
     public Iterator iterator() {
+        int sizeToChange = size;
 
         return new Iterator() {
             Item item = head;
             @Override
             public boolean hasNext() {
+                // Проверка срабатывания исключения.
                 return item != null;
             }
 
             @Override
             public T next() {
+                if(sizeToChange != size) // Упростим проверку, сделаем её только размеру списка.
+                    throw new ConcurrentModificationException("Список был отредактирован!");
                 T o = (T) item.value;
                 item = item.next;
                 return o;

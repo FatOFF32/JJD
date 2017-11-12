@@ -1,4 +1,4 @@
-package Lesson7;
+package Lessons7andAbove;
 
 public enum Planets {
     // Цифры предоставлены ученым Кириллом Тртилеком...

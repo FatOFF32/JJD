@@ -1,6 +1,7 @@
-package Lesson7;
+package Lessons7andAbove;
 
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import static java.lang.System.out;
@@ -24,20 +25,27 @@ public class ArrayList implements List {
 
         // Все проверяем в LinkedList
 
+
+
     }
 
     @Override
     public Iterator iterator() {
+        int sizeToChange = size;
         return new Iterator() {
             int i;
 
             @Override
             public boolean hasNext() {
+                // Проверка срабатывания исключения.
+                if (i == 5) size++;
                 return i < size;
             }
 
             @Override
             public Object next() {
+                if(sizeToChange != size) // Упростим проверку, сделаем её только размеру списка.
+                    throw new ConcurrentModificationException("Список был отредактирован!");
                 return get(i++);
             }
         };
@@ -57,6 +65,9 @@ public class ArrayList implements List {
 
         if (listEmpty())
             return null;
+
+        if(index > size)
+            throw new MyIndexOutOfBoundsException("Индекс находится за пределами массива!");
 
         return objects[index];
     }

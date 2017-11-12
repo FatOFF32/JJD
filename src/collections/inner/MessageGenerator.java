@@ -17,7 +17,9 @@ public class MessageGenerator {
         Random rnd = new Random();
 
         List<Message> messages = new ArrayList<>(num);
-
+//        ArrayList<Message> messages1 = new ArrayList<>(num);
+//
+//        ArrayList<Message> mes = (ArrayList<Message>) messages1.clone();
         int typesCnt = MessagePriority.values().length;
 
         for (int i = 0; i < num; i++) {

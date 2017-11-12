@@ -1,4 +1,4 @@
-package Lesson7;
+package Lessons7andAbove;
 
 import static java.lang.System.out;
 

@@ -1,6 +1,4 @@
-package Lesson7;
-
-import Lesson4.IntList;
+package Lessons7andAbove;
 
 public class Task10 {
     public static void main(String[] args) {

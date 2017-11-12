@@ -1,6 +1,4 @@
-package Lesson7;
-
-import java.io.File;
+package Lessons7andAbove;
 
 public class Task9 {
 
