@@ -111,7 +111,7 @@ public class Task8 {
     }
 
     //тупо спёр! Даже коменты не поправил... спать хочу...
-    private static String getFileExtension(File file) {
+    public static String getFileExtension(File file) {
         String fileName = file.getName();
         // если в имени файла есть точка и она не является первым символом в названии файла
         if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
