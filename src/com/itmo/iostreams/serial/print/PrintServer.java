@@ -48,7 +48,13 @@ public class PrintServer {
              OutputStream out = sock.getOutputStream()) {
             Object obj = objIn.readObject();
 
-            printMessage((Message) obj, host);
+            if (obj instanceof Command){
+                Command cmd = (Command) obj;
+                cmd.apply();
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+                objOut.writeObject(cmd);
+            }
+            else printMessage((Message) obj, host);
         }
         catch (IOException | ClassNotFoundException | RuntimeException e) {
             System.err.println("Failed process connection from: " + host);

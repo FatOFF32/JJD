@@ -1,10 +1,11 @@
 package com.itmo.iostreams.serial.print;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import collections.inner.User;
+
+import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,7 +25,7 @@ public class PrintClient {
         this.scanner = scanner;
     }
 
-    private void start() throws IOException {
+    private void start() throws IOException, ClassNotFoundException {
         System.out.println("Enter your name: ");
 
         name = scanner.nextLine();
@@ -48,9 +49,80 @@ public class PrintClient {
 
                 continue;
             }
+            else if ("/list_user".equals(msg)) {
+                printListUserToServer();
+
+                continue;
+            }
+            else if ("/server_time".equals(msg)) {
+                printServerTime();
+
+                continue;
+            }
 
             buildAndSendMessage(msg);
         }
+    }
+
+    private void printServerTime() throws IOException, ClassNotFoundException {
+
+        // подключились к серверу
+        try(Socket sock = new Socket()){
+            sock.connect(serverAddr);
+
+            // создали входящие и исходящие потоки
+            try(OutputStream out = sock.getOutputStream();
+                InputStream in = sock.getInputStream()){
+                //обернули в объекты для отправки и принятия
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+                ObjectInputStream objIn = new ObjectInputStream(in);
+
+                // наш объект, куда мы должны будем поместить дату
+                ServerTime st = new ServerTime();
+
+                // толкаем
+                objOut.writeObject(st);
+                objOut.flush();
+
+                // ждем ответа
+                st = (ServerTime) objIn.readObject();
+
+                System.out.println(st);
+
+            }
+        }
+
+
+    }
+
+    private void printListUserToServer() throws IOException {
+
+        // подключились к серверу
+        try(Socket sock = new Socket()){
+            sock.connect(serverAddr);
+
+            // создали входящие и исходящие потоки
+            try(OutputStream out = sock.getOutputStream();
+                InputStream in = sock.getInputStream()){
+                //обернули в объекты для отправки и принятия
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+                ObjectInputStream objIn = new ObjectInputStream(in);
+
+                // наш объект, куда мы должны будем поместить дату
+
+
+//                // толкаем
+//                objOut.writeObject();
+//                objOut.flush();
+//
+//                // ждем ответа
+//                objIn.read();
+
+
+            }
+        }
+
+
     }
 
     private void printAddresses() throws SocketException {
@@ -112,6 +184,10 @@ public class PrintClient {
 
         PrintClient client = new PrintClient(parseAddress(addr), scanner);
 
-        client.start();
+        try {
+            client.start();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Чувак, не суй мне больше свой кривой объект!" + e.getMessage());
+        }
     }
 }
