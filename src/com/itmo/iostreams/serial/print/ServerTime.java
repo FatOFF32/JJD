@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class ServerTime implements Command{
     Date date;
+    String name;
 
     @Override
     public String toString() {
@@ -23,10 +24,12 @@ public class ServerTime implements Command{
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(date);
+        out.writeObject(name);
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         date = (Date) in.readObject();
+        name = (String) in.readObject();
     }
 }
