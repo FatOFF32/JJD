@@ -75,7 +75,7 @@ public class PrintClient {
                 InputStream in = sock.getInputStream()){
                 //обернули в объекты для отправки и принятия
                 ObjectOutputStream objOut = new ObjectOutputStream(out);
-                ObjectInputStream objIn = new ObjectInputStream(in);
+//                ObjectInputStream objIn = new ObjectInputStream(in); // Так почему то не работает...
 
                 // наш объект, куда мы должны будем поместить дату
                 ServerTime st = new ServerTime();
@@ -85,6 +85,7 @@ public class PrintClient {
                 objOut.flush();
 
                 // ждем ответа
+                ObjectInputStream objIn = new ObjectInputStream(in);
                 st = (ServerTime) objIn.readObject();
 
                 System.out.println(st);
@@ -106,7 +107,6 @@ public class PrintClient {
                 InputStream in = sock.getInputStream()){
                 //обернули в объекты для отправки и принятия
                 ObjectOutputStream objOut = new ObjectOutputStream(out);
-                ObjectInputStream objIn = new ObjectInputStream(in);
 
                 // наш объект, куда мы должны будем поместить дату
 
@@ -116,6 +116,7 @@ public class PrintClient {
 //                objOut.flush();
 //
 //                // ждем ответа
+//                ObjectInputStream objIn = new ObjectInputStream(in);
 //                objIn.read();
 
 
@@ -187,7 +188,7 @@ public class PrintClient {
         try {
             client.start();
         } catch (ClassNotFoundException e) {
-            System.out.println("Чувак, не суй мне больше свой кривой объект!" + e.getMessage());
+            System.out.println("Чувак, не суй в меня больше свой объект!" + e.getMessage());
         }
     }
 }

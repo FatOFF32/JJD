@@ -1,10 +1,16 @@
 package com.itmo.iostreams.serial.print;
 
+import Lessons7andAbove.ArrayList;
+import Lessons7andAbove.List;
+import collections.inner.User;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
  * Created by xmitya on 28.08.16.
@@ -14,6 +20,8 @@ public class PrintServer {
     private int port;
 
     private SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
+
+    private Collection<User> users = new HashSet<>();
 
     public PrintServer(int port) {
         this.port = port;
@@ -48,7 +56,7 @@ public class PrintServer {
              OutputStream out = sock.getOutputStream()) {
             Object obj = objIn.readObject();
 
-            if (obj instanceof Command){
+            if (obj instanceof Command){ // Проверить будет ли работать, т.к. obj это у нас объект
                 Command cmd = (Command) obj;
                 cmd.apply();
                 ObjectOutputStream objOut = new ObjectOutputStream(out);

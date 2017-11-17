@@ -7,6 +7,8 @@ public class Saw extends InputStream {
 
     int a = 0; //00000000
     int inkr = 128; // на какой знак двигаем
+//    byte a = 0; //00000000
+//    byte inkr = -128; // на какой знак двигаем
 
     public static void main(String[] args) throws IOException {
 
@@ -31,5 +33,15 @@ public class Saw extends InputStream {
         a = a | inkr;
 
         return a;
+
+//        // Почему то не получилась работа с байтом, сделаем через интежер
+//        if (a == -1) //11111111
+//            a = 0;
+//
+//        // Смещаем биты
+//        a = (byte) (a << 1);
+//        a = (byte) (a | inkr);
+//
+//        return a;
     }
 }
