@@ -3,3 +3,23 @@
 3. Не может ли у нас быть такой ситуации, когда мы толкнули объект и хотим дождаться ответа,
     а сервер быстрее нам его отправил, до того момента, пока мы выполним команду?
 4. ObjectInputStream обязательно оборачивать в try (ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream())
+5. Объекты анонимных классов сериализуются?
+6. Почему то зависает на ObjectInputStream objIn = new ObjectInputStream(in)
+7. Почему, когда я оборачиваю в объекты так:
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+                ObjectInputStream objIn = new ObjectInputStream(in);
+    На последнем у меня зависает программа, а если делаю так:
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+//              ObjectInputStream objIn = new ObjectInputStream(in);
+
+                // наш объект, куда мы должны будем поместить дату
+                ServerTime st = new ServerTime();
+
+                // толкаем
+                objOut.writeObject(st);
+                objOut.flush();
+
+                // ждем ответа
+                ObjectInputStream objIn = new ObjectInputStream(in);
+                st = (ServerTime) objIn.readObject();
+  ТО все работает....
