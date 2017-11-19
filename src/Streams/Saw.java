@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 public class Saw extends InputStream {
 
-    int a = 0; //00000000
+    int a = 1; //00000000 0
     int inkr = 128; // на какой знак двигаем
 //    byte a = 0; //00000000
 //    byte inkr = -128; // на какой знак двигаем
@@ -25,12 +25,13 @@ public class Saw extends InputStream {
     public int read() throws IOException {
 
         // Почему то не получилась работа с байтом, сделаем через интежер
-        if (a == 255) //11111111
-            a = 0;
+//        if (a == 255) //11111111
+//            a = 0;
 
         // Смещаем биты
-        a = a >> 1;
-        a = a | inkr;
+//        a = a >> 1;
+//        a = a | inkr;
+        a = a << 1;
 
         return a;
 

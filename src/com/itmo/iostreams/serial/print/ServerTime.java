@@ -6,8 +6,17 @@ import java.io.ObjectOutput;
 import java.util.Date;
 
 public class ServerTime implements Command{
-    Date date;
-    String name;
+    private Date date;
+    private String user;
+
+    public ServerTime(String user) {
+        this.user = user;
+    }
+
+    @Override
+    public String getSender() {
+        return user;
+    }
 
     @Override
     public String toString() {
@@ -17,19 +26,19 @@ public class ServerTime implements Command{
     }
 
     @Override
-    public void apply() {
+    public void apply(PrintServer ps) {
         date = new Date();
     }
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(date);
-        out.writeObject(name);
+        out.writeObject(user);
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         date = (Date) in.readObject();
-        name = (String) in.readObject();
+        user = (String) in.readObject();
     }
 }

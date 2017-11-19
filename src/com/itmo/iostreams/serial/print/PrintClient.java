@@ -78,7 +78,7 @@ public class PrintClient {
 //                ObjectInputStream objIn = new ObjectInputStream(in); // Так почему то не работает...
 
                 // наш объект, куда мы должны будем поместить дату
-                ServerTime st = new ServerTime();
+                ServerTime st = new ServerTime(name);
 
                 // толкаем
                 objOut.writeObject(st);
@@ -96,7 +96,7 @@ public class PrintClient {
 
     }
 
-    private void printListUserToServer() throws IOException {
+    private void printListUserToServer() throws IOException, ClassNotFoundException {
 
         // подключились к серверу
         try(Socket sock = new Socket()){
@@ -109,16 +109,17 @@ public class PrintClient {
                 ObjectOutputStream objOut = new ObjectOutputStream(out);
 
                 // наш объект, куда мы должны будем поместить дату
+                ListUser listUser = new ListUser(name);
 
+                // толкаем
+                objOut.writeObject(listUser);
+                objOut.flush();
 
-//                // толкаем
-//                objOut.writeObject();
-//                objOut.flush();
-//
-//                // ждем ответа
-//                ObjectInputStream objIn = new ObjectInputStream(in);
-//                objIn.read();
+                // ждем ответа
+                ObjectInputStream objIn = new ObjectInputStream(in);
+                listUser = (ListUser) objIn.readObject();
 
+                System.out.println(listUser);
 
             }
         }

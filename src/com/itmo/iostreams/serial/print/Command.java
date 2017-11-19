@@ -4,5 +4,6 @@ import java.io.Externalizable;
 
 public interface Command extends Externalizable{
 
-    void apply();
+    void apply(PrintServer ps);
+    String getSender();
 }

@@ -5,23 +5,43 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class ListUser implements Command{
-    List users;
+    HashSet<String> users;
+    String user;
+
+    public ListUser(String user) {
+        this.user = user;
+    }
 
     @Override
-    public void apply() {
+    public String getSender() {
+        return user;
+    }
 
+    @Override
+    public void apply(PrintServer ps) {
+        users = ps.getUsers();
     }
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(users);
+        out.writeObject(user);
+    }
 
+    @Override
+    public String toString() {
+        return "ListUser{" +
+                "users=" + users +
+                '}';
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-
+        users = (HashSet<String>) in.readObject();
+        user = (String) in.readObject();
     }
 }

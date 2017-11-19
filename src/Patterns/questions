@@ -1,0 +1,13 @@
+1. Если создавать синглтон так private static final File CFG_FILE = new File("app_config.properties");
+    то он будет создан сразу же в момент ображения к фабрики или в момент возврата этой переменной?
+    Если да, то лучше использовать такую конструкцию?
+    public static AppConfiguration getConfiguration() {
+     if (instance == null)
+     instance = new AppConfiguration();
+
+2. Чем отличаются эти 3 способа:
+     private static final File CFG_FILE = new File("app_config.properties");
+     private static AppConfiguration instance;
+     private final Properties properties;
+
+3. Можно ли создавать объекты абстрактного класса?

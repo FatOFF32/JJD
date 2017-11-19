@@ -23,3 +23,7 @@
                 ObjectInputStream objIn = new ObjectInputStream(in);
                 st = (ServerTime) objIn.readObject();
   ТО все работает....
+
+8. Почему то перестал работать клиент сервер.
+    Падает при вызове Object obj = objIn.readObject();
+    произошло это при добавлении нового поля user типа String

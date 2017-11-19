@@ -6,9 +6,20 @@ import java.io.ObjectOutput;
 
 public class Ping implements Command{
     //int ping;
-    @Override
-    public void apply() {
+    String user;
 
+    public Ping(String user) {
+        this.user = user;
+    }
+
+    @Override
+    public void apply(PrintServer ps) {
+
+    }
+
+    @Override
+    public String getSender() {
+        return user;
     }
 
     @Override

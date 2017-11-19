@@ -15,13 +15,17 @@ import java.util.HashSet;
 /**
  * Created by xmitya on 28.08.16.
  */
-public class PrintServer {
+public class PrintServer implements Serializable {
 
     private int port;
 
     private SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
 
-    private Collection<User> users = new HashSet<>();
+    private HashSet<String> users = new HashSet<>();
+
+    public HashSet<String> getUsers() {
+        return users;
+    }
 
     public PrintServer(int port) {
         this.port = port;
@@ -58,7 +62,8 @@ public class PrintServer {
 
             if (obj instanceof Command){ // Проверить будет ли работать, т.к. obj это у нас объект
                 Command cmd = (Command) obj;
-                cmd.apply();
+                users.add(cmd.getSender());
+                cmd.apply(this);
                 ObjectOutputStream objOut = new ObjectOutputStream(out);
                 objOut.writeObject(cmd);
             }
@@ -74,6 +79,7 @@ public class PrintServer {
     }
 
     private void printMessage(Message msg, String senderAddr) {
+        users.add(msg.getSender());
         System.out.printf("%s (%s) at %s wrote: %s\n", msg.getSender(), senderAddr, format.format(new Date(msg.getTimestamp())), msg.getText());
     }
 
