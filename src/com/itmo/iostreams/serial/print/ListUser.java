@@ -16,6 +16,9 @@ public class ListUser implements Command{
         this.user = user;
     }
 
+    public ListUser() {
+    }
+
     @Override
     public String getSender() {
         return user;
@@ -29,7 +32,7 @@ public class ListUser implements Command{
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(users);
-        out.writeObject(user);
+        out.writeUTF(user);
     }
 
     @Override
@@ -42,6 +45,6 @@ public class ListUser implements Command{
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         users = (HashSet<String>) in.readObject();
-        user = (String) in.readObject();
+        user = in.readUTF();
     }
 }
