@@ -6,12 +6,7 @@ public abstract class Factory {
     private static Factory de;
     private static Factory ru;
 
-    //    @Override
-    //    Factory createCar(Factory car) {
-    //        if (car == null)
-    //            car = new RussianFactory();
-    //        return car;
-    //    }
+
     public abstract Car createCar(String nameCar);
 
     public abstract Car createCar();
