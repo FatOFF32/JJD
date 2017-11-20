@@ -11,3 +11,7 @@
      private final Properties properties;
 
 3. Можно ли создавать объекты абстрактного класса?
+
+4. switch (nameCar){
+               case
+   Как работет, если туда передаем строку? По equals?

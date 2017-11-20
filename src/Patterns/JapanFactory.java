@@ -1,25 +1,32 @@
 package Patterns;
 
 public class JapanFactory extends Factory {
-    private final double fuelCons = 9.3;
 
     private JapanFactory() {
-        super(9.3);
     }
 
-//    @Override
-//    public double getFuelCons() {
-//        return fuelCons;
-//    }
-
-//    @Override
-//    Factory createCar(Factory car) {
-//        if (car == null)
-//            car = new JapanFactory();
-//        return car;
-//    }
+    // Во всех непонятных случаях - создаем тайоту!
     @Override
-    static Factory createCar() {
+    public Car createCar() {
+        return new Tayota();
+    }
+
+    @Override
+    public Car createCar(String nameCar) {
+
+        Car car;
+        switch (nameCar){
+            case "Tayota":
+                car = new Tayota();
+                break;
+            default:
+                car = new Tayota();
+        }
+
+        return car;
+    }
+
+    static Factory getFactory(){
         return new JapanFactory();
     }
 }

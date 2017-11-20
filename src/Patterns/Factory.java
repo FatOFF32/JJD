@@ -2,15 +2,9 @@ package Patterns;
 
 public abstract class Factory {
 
-    private final double fuelCons;
-
     private static Factory jp;
     private static Factory de;
     private static Factory ru;
-
-    Factory(double fuelCons) {
-        this.fuelCons = fuelCons;
-    }
 
     //    @Override
     //    Factory createCar(Factory car) {
@@ -18,19 +12,10 @@ public abstract class Factory {
     //            car = new RussianFactory();
     //        return car;
     //    }
-        abstract Factory createCar();
+    public abstract Car createCar(String nameCar);
 
-    double getFuelCons() {
-        return fuelCons;
-    }
+    public abstract Car createCar();
 
-    public int drive(int distance, int fuel) {
-        int possibleDist = (int) (fuel * 100 / fuelCons);
-
-        if (distance > possibleDist)
-            return possibleDist;
-        return distance;
-    }
 
     public static Factory getFactory(String countryCar){
 
@@ -39,20 +24,21 @@ public abstract class Factory {
         switch (countryCar){
             case "JP":
                 if (jp == null)
-                    jp = JapanFactory.createCar();
+                    jp = JapanFactory.getFactory();
                 car = jp;
                 break;
             case "DE":
                 if (de == null)
-                    de = de.createCar();
+                    de = GermanFactory.getFactory();
                 car = de;
                 break;
             case "RU":
                 if (ru == null)
-                    ru = ru.createCar();
-                car = ru;
+                    ru = RussianFactory.getFactory();
+                car = de;
                 break;
         }
+
         return car;
 
     }

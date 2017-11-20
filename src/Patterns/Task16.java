@@ -7,9 +7,13 @@ public class Task16 {
         Factory de = Factory.getFactory("DE");
         Factory ru = Factory.getFactory("RU");
 
-        System.out.println("JP: " + jp.drive(100, 3));
-        System.out.println("DE: " + de.drive(100, 3));
-        System.out.println("RU: " + ru.drive(100, 3));
+        Car tayota = jp.createCar();
+        Car bmw = de.createCar();
+        Car uaz = ru.createCar();
+
+        System.out.println("tayota: " + tayota.drive(100, 3));
+        System.out.println("bmw: " + bmw.drive(100, 3));
+        System.out.println("uaz: " + uaz.drive(100, 3));
 
 
     }

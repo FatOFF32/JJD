@@ -1,21 +1,32 @@
 package Patterns;
 
 public class RussianFactory extends Factory {
-    //private final double fuelCons = 20.7;
 
     private RussianFactory() {
-        super(20.7);
     }
 
-
-//    @Override
-//    Factory createCar(Factory car) {
-//        if (car == null)
-//            car = new RussianFactory();
-//        return car;
-//    }
+    // Во всех непонятных случаях - создаем уаз!
     @Override
-    static Factory createCar() {
+    public Car createCar() {
+        return new Uaz();
+    }
+
+    @Override
+    public Car createCar(String nameCar) {
+
+        Car car;
+        switch (nameCar){
+            case "Uaz":
+                car = new Uaz();
+                break;
+            default:
+                car = new Uaz();
+        }
+
+        return car;
+    }
+
+    static Factory getFactory(){
         return new RussianFactory();
     }
 }
