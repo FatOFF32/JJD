@@ -15,3 +15,9 @@
 4. switch (nameCar){
                case
    Как работет, если туда передаем строку? По equals?
+
+5. Для чего мы пишем так?:
+Pizza pizza = new Pizza.Builder(true).addBecon(2).addCheese(3).build();
+Мы же можем сделать статический метод в классе пицца, и уже оттуда создать бильдер!
+Pizza pizza = Pizza.builder1(true).addBecon(2).addCheese(3).build();
+Как лучше?
