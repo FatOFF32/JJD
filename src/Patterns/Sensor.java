@@ -2,7 +2,7 @@ package Patterns;
 
 public class Sensor {
 
-    
+
 
     interface Alarm{
         void tempChanget(int temp);
