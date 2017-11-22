@@ -75,22 +75,19 @@ public class PrintClient {
         try(Socket sock = new Socket()){
             sock.connect(serverAddr);
 
-            try(OutputStream out = sock.getOutputStream();
-                InputStream in = sock.getInputStream()) {
+            try(ObjectOutputStream objOut = new ObjectOutputStream(sock.getOutputStream());
+                ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream())) {
 
-                ObjectOutputStream objOut;
-                ObjectInputStream objIn;
                 Ping ping = new Ping(name);
                 long timeOut;
                 long timeIn;
                 for (int i = 0; i < 4; i++) {
-                    objOut = new ObjectOutputStream(out);
+
                     timeIn = System.nanoTime();
                     objOut.writeObject(ping);
                     objOut.flush();
 
-                    objIn = new ObjectInputStream(in);
-                    objIn.readObject();
+                    ping = (Ping) objIn.readObject();
                     timeOut = System.nanoTime();
 
                     System.out.println("ping " + sock.getInetAddress() + " отклик в нано секундах " + (timeOut - timeIn));
