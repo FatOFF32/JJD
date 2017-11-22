@@ -12,6 +12,9 @@ public class Ping implements Command{
         this.user = user;
     }
 
+    public Ping() {
+    }
+
     @Override
     public void apply(PrintServer ps) {
 

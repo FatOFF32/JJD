@@ -1,4 +1,4 @@
-package com.itmo.iostreams.serial.print;
+package Patterns;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -24,10 +24,10 @@ public class CryptoOutputStream extends FilterOutputStream{
     @Override
     public void write(byte[] b) throws IOException {
         byte[] byteCrypto = b.clone();
-        for (byte bCr : byteCrypto){
+        for (int i = 0; i < byteCrypto.length; i++) {
             if (currByteIdx >= pass.length)
                 currByteIdx = 0;
-            bCr ^= pass[currByteIdx++];
+            byteCrypto[i] ^= pass[currByteIdx++];
         }
         super.write(byteCrypto);
     }
@@ -35,10 +35,10 @@ public class CryptoOutputStream extends FilterOutputStream{
     @Override
     public void write(byte[] b, int off, int len) throws IOException {
         byte[] byteCrypto = b.clone();
-        for (byte bCr : byteCrypto){
+        for (int i = 0; i < byteCrypto.length; i++) {
             if (currByteIdx >= pass.length)
                 currByteIdx = 0;
-            bCr ^= pass[currByteIdx++];
+            byteCrypto[i] ^= pass[currByteIdx++];
         }
         super.write(byteCrypto, off, len);
     }

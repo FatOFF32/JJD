@@ -60,8 +60,46 @@ public class PrintClient {
                 continue;
             }
 
+            else if ("/ping".equals(msg)) {
+                ping();
+
+                continue;
+            }
+
             buildAndSendMessage(msg);
         }
+    }
+
+    private void ping() throws IOException, ClassNotFoundException {
+
+        try(Socket sock = new Socket()){
+            sock.connect(serverAddr);
+
+            try(OutputStream out = sock.getOutputStream();
+                InputStream in = sock.getInputStream()) {
+
+                ObjectOutputStream objOut;
+                ObjectInputStream objIn;
+                Ping ping = new Ping(name);
+                long timeOut;
+                long timeIn;
+                for (int i = 0; i < 4; i++) {
+                    objOut = new ObjectOutputStream(out);
+                    timeIn = System.nanoTime();
+                    objOut.writeObject(ping);
+                    objOut.flush();
+
+                    objIn = new ObjectInputStream(in);
+                    objIn.readObject();
+                    timeOut = System.nanoTime();
+
+                    System.out.println("ping " + sock.getInetAddress() + " отклик в нано секундах " + (timeOut - timeIn));
+
+                }
+
+            }
+        }
+
     }
 
     private void printServerTime() throws IOException, ClassNotFoundException {
