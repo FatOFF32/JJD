@@ -1,4 +1,4 @@
-package com.itmo.iostreams.serial.print;
+package Patterns;
 
 import java.io.BufferedInputStream;
 import java.io.FilterInputStream;
@@ -26,13 +26,10 @@ public class CryptoInputStream extends FilterInputStream {
 
         byte[] byteCrypto = b.clone();
 //        byte[] byteCrypto = new byte[b.length];
-//        for (int i = 0; i < b.length; i++) {
-//
-//        }
-        for (byte bCr : byteCrypto) {
+        for (int i = 0; i < byteCrypto.length; i++) {
             if (currByteIdx >= pass.length)
                 currByteIdx = 0;
-            bCr ^= pass[currByteIdx++];
+            byteCrypto[i] ^= pass[currByteIdx++];
         }
 
         return super.read(byteCrypto, off, len);
