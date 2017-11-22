@@ -75,7 +75,7 @@ public class PrintClient {
                 InputStream in = sock.getInputStream()){
                 //обернули в объекты для отправки и принятия
                 ObjectOutputStream objOut = new ObjectOutputStream(out);
-//                ObjectInputStream objIn = new ObjectInputStream(in); // Так почему то не работает...
+                ObjectInputStream objIn = new ObjectInputStream(in); // Так почему то не работает...
 
                 // наш объект, куда мы должны будем поместить дату
                 ServerTime st = new ServerTime(name);
@@ -84,8 +84,10 @@ public class PrintClient {
                 objOut.writeObject(st);
                 objOut.flush();
 
+                System.out.println("Sent " + st);
+
                 // ждем ответа
-                ObjectInputStream objIn = new ObjectInputStream(in);
+//                ObjectInputStream objIn = new ObjectInputStream(in);
                 st = (ServerTime) objIn.readObject();
 
                 System.out.println(st);

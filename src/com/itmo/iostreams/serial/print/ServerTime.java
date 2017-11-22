@@ -13,6 +13,9 @@ public class ServerTime implements Command{
         this.user = user;
     }
 
+    public ServerTime() {
+    }
+
     @Override
     public String getSender() {
         return user;

@@ -56,16 +56,21 @@ public class PrintServer implements Serializable {
     private void process(Socket sock) throws IOException, ClassNotFoundException {
         String host = sock.getInetAddress().getHostAddress();
 
-        try (ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream());
-             OutputStream out = sock.getOutputStream()) {
+        try (ObjectOutputStream objOut = new ObjectOutputStream(sock.getOutputStream());
+             ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream())) {
             Object obj = objIn.readObject();
+
+            System.out.println("Received " + obj);
 
             if (obj instanceof Command){ // Проверить будет ли работать, т.к. obj это у нас объект
                 Command cmd = (Command) obj;
                 users.add(cmd.getSender());
                 cmd.apply(this);
-                ObjectOutputStream objOut = new ObjectOutputStream(out);
+//                ObjectOutputStream objOut = new ObjectOutputStream(out);
                 objOut.writeObject(cmd);
+                objOut.flush();
+
+                System.out.println("Sent " + cmd);
             }
             else printMessage((Message) obj, host);
         }
