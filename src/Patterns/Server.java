@@ -29,11 +29,11 @@ public class Server {
 
             pass = scr.nextLine();
 
-            try(Socket socket = serverSocket.accept(); // тут ждём пока нам кто то постучится
-                InputStream in = new CryptoInputStream(socket.getInputStream(), pass.getBytes())) {
+            try(Socket socket = serverSocket.accept()){ // тут ждём пока нам кто то постучится
+                CryptoInputStream in = new CryptoInputStream(socket.getInputStream(), pass.getBytes());
 
                     ObjectInputStream obhIn = new ObjectInputStream(in);
-                    Object obj = obhIn.readObject();
+                    Object obj = obhIn.readUTF();
 
                     System.out.println(obj);
 

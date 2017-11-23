@@ -28,7 +28,7 @@ public class Client {
             try(OutputStream out = new CryptoOutputStream(sock.getOutputStream(), pass.getBytes())) {
 
                 ObjectOutputStream objOut = new ObjectOutputStream(out);
-                objOut.writeObject("Привет чувааак!");
+                objOut.writeUTF("Привет чувааак!");
                 objOut.flush();
 
             }

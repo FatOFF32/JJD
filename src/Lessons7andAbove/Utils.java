@@ -5,6 +5,12 @@ import java.util.Iterator;
 
 public final class Utils {
 
+    public static String toString(Object o){
+
+        return new String();
+
+    }
+
     private Utils() {
     }
 
