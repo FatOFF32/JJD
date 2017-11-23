@@ -1,13 +1,35 @@
 package Lessons7andAbove;
 
 
+import Reflection.Exclude;
+
+import java.lang.reflect.Field;
 import java.util.Iterator;
 
 public final class Utils {
 
-    public static String toString(Object o){
+    public static String toString(Object o) throws IllegalAccessException {
 
-        return new String();
+        Class<?> clazz = o.getClass();
+        StringBuilder sb = new StringBuilder("{" + clazz.getName() + "} = [");
+
+        for(Field field : clazz.getDeclaredFields()){
+
+            Exclude exclude = field.getAnnotation(Exclude.class);
+            if(exclude != null && exclude.value()) continue;
+
+            sb.append("'").append(field.getType()).append("' = ").append(field.get(o)).append(";");
+//            Object obj = field.get(o); // Проверка на null и примитивы не нужна тут....
+//            if (obj == null)
+//                sb.append("null");
+//            else sb.append(obj);
+//            sb.append(";");
+
+        }
+
+        sb.append("]");
+
+        return sb.toString();
 
     }
 
