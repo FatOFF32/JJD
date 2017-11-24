@@ -1,5 +1,6 @@
 package Reflection;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,10 +31,39 @@ public class DIContext {
         return (T) obj;
     }
 
-    public void inject(Object o){
-        Class<?> clazz = o.getClass();
+    public <T> void inject(T o) throws InstantiationException, IllegalAccessException {
+        Class<T> clazz = (Class<T>) o.getClass();
 
+        for (Field field : clazz.getDeclaredFields()){
 
+            Resource resource = field.getAnnotation(Resource.class);
+            if(resource == null) continue;
+
+            Class<?> type = resource.value() == Object.class ? field.getType() : resource.value();
+
+            field.setAccessible(true);
+
+            field.set(o, getInstance(type, resource.singltone()));
+
+        }
+
+    }
+
+    <T> T getInstance(Class<T> type, boolean singltone) throws IllegalAccessException, InstantiationException {
+
+        T resouse;
+
+        if (singltone){
+            if (instances.containsKey(type))
+                return (T) instances.get(type);
+            resouse = instances.containsKey(type) ? (T) instances.get(type) : type.newInstance();
+            instances.putIfAbsent(type, resouse);
+        }
+        else resouse = type.newInstance();
+
+        inject(resouse);
+
+        return resouse;
 
     }
 
