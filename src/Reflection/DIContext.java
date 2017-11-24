@@ -12,27 +12,27 @@ public class DIContext {
     private DIContext() {
     }
 
-    public DIContext Instance(){
+    public static DIContext instance(){
         return INSTANCE;
     }
 
     <T> T getObject(String className) throws ClassNotFoundException{
 
-        Class<?> clazz = Class.forName(className);
-        Object obj = null;
+        Class<T> clazz = (Class<T>) Class.forName(className);
+        T obj = null;
 
         try {
-            obj = clazz.newInstance();
+            obj = getInstance(clazz, false);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return (T) obj;
+        return obj;//(T) obj;
     }
 
-    public <T> void inject(T o) throws InstantiationException, IllegalAccessException {
-        Class<T> clazz = (Class<T>) o.getClass();
+    public void inject(Object o) throws InstantiationException, IllegalAccessException {
+        Class<?> clazz = o.getClass();
 
         for (Field field : clazz.getDeclaredFields()){
 

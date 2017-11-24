@@ -9,4 +9,12 @@ public class A {
     public I getI() {
         return i;
     }
+
+    @Override
+    public String toString() {
+        return "A{" +
+                "str='" + str + '\'' +
+                ", i=" + i +
+                '}';
+    }
 }
