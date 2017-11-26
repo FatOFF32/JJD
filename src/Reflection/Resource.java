@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Resource {
     Class<?> value() default Object.class;
-    boolean singltone() default false;
+    boolean singltone() default true;
 }

@@ -24,15 +24,19 @@ public class CryptoInputStream extends FilterInputStream {
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
 
-        byte[] byteCrypto = b.clone();
+        int res = super.read(b, off, len);
+
+        if (res < 0)
+            return -1;
+//        byte[] byteCrypto = b.clone();
 //        byte[] byteCrypto = new byte[b.length];
-        for (int i = 0; i < byteCrypto.length; i++) {
+        for (int i = off; i < res + off; i++) { // !!! Тут была ошибка! было так: for (int i = 0; i < b.length; i++)
             if (currByteIdx >= pass.length)
                 currByteIdx = 0;
-            byteCrypto[i] ^= pass[currByteIdx++];
+            b[i] ^= pass[currByteIdx++];
         }
 
-        return super.read(byteCrypto, off, len);
+        return res;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class CryptoInputStream extends FilterInputStream {
             return -1;
         if (currByteIdx >= pass.length)
             currByteIdx = 0;
-        return super.read() ^ pass[currByteIdx++];
+        return ((byte) result ^ pass[currByteIdx++]);// & 0xFF;
     }
 
     protected CryptoInputStream(InputStream in, byte[] pass) {
