@@ -2,9 +2,10 @@ package Reflection;
 
 import java.lang.annotation.*;
 
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.TYPE})
+//@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Resource {
+@interface Resource {
     Class<?> value() default Object.class;
     boolean singltone() default true;
 }

@@ -22,7 +22,11 @@ public class DIContext {
         T obj = null;
 
         try {
-            obj = getInstance(clazz, false);
+            boolean singlton = false;
+            Resource resource = clazz.getAnnotation(Resource.class);
+            if (resource != null)
+                singlton = resource.singltone();
+            obj = getInstance(clazz, singlton);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

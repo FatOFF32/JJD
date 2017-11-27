@@ -1,5 +1,6 @@
 package Reflection;
 
+@Resource(singltone = false)
 public class Impl implements I {
     @Override
     public String getValue() {
