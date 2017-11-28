@@ -41,7 +41,7 @@ public class Server {
                 fileName = in.readUTF(); // имя файла
                 sizeFile = in.readLong(); // размер файла возможно будет использоваться для определения, хватит ли места или нет...
 
-                FileOutputStream fileOutputStream = new FileOutputStream(new File("D:\\Java\\Лекии_Задания" + fileName));
+                FileOutputStream fileOutputStream = new FileOutputStream(new File("D:\\Java\\Лекии_Задания\\" + fileName));
 
                 while ((len = in.read(buffer)) > 0){
                     fileOutputStream.write(buffer); // Если не проканает, попробовать вот так: fileOutputStream.write(buffer, 0, len);

@@ -14,11 +14,18 @@ public class CryptoOutputStream extends FilterOutputStream{
         this.pass = pass;
     }
 
-    @Override // Метод нормально работает, но нужно переодпеделять
+    // Можно переопределить только этот метод, т.к. все остальные методы (write(byte[] b), write(byte[] b, int off, int len)
+    // будут вызывать в итоге этот метод. Если встак переопределям эти методы, то для того чтобы наш конечный
+    // переопределенный метод write(int b) не вызывался, делаем вызовы методов класса (FilterOutputStream) через переменную out.
+    @Override
     public void write(int b) throws IOException {
         if (currByteIdx >= pass.length)
             currByteIdx = 0;
-        super.write((byte) b ^ pass[currByteIdx++]);
+        // ! Тут была ошибка! необходимо вызывать методы не супер класса, а напрямую через переменую,
+        //  т.к. вызов метода суперкласса возвращает внутри себя вызывает наш переопределенный метод,
+        //  что приводит к двойному шифрованию. поэтому вызовим метод через out
+        //super.write((byte) b ^ pass[currByteIdx++]);
+        out.write((byte) b ^ pass[currByteIdx++]);
     }
 
     @Override
@@ -29,19 +36,17 @@ public class CryptoOutputStream extends FilterOutputStream{
                 currByteIdx = 0;
             byteCrypto[i] ^= pass[currByteIdx++];
         }
-        super.write(byteCrypto);
+        out.write(byteCrypto);
     }
 
-    // Метод нормально работает, но нужно переодпеделять либо write(int b) либо этот,
-    // т.к. метод super.write(byteCrypto, off, len); вызывает метод write(int b), и потоки шифруются дважды.
-//    @Override
-//    public void write(byte[] b, int off, int len) throws IOException {
-//        byte[] byteCrypto = b.clone();
-//        for (int i = off; i < off + len; i++) { //!!! Ошибка была тут!  for (int i = 0; i < byteCrypto.length; i++)
-//            if (currByteIdx >= pass.length)
-//                currByteIdx = 0;
-//            byteCrypto[i] ^= pass[currByteIdx++];
-//        }
-//        super.write(byteCrypto, off, len);
-//    }
+    @Override
+    public void write(byte[] b, int off, int len) throws IOException {
+        byte[] byteCrypto = b.clone();
+        for (int i = off; i < off + len; i++) { //!!! Ошибка была тут!  for (int i = 0; i < byteCrypto.length; i++)
+            if (currByteIdx >= pass.length)
+                currByteIdx = 0;
+            byteCrypto[i] ^= pass[currByteIdx++];
+        }
+        out.write(byteCrypto, off, len);
+    }
 }
