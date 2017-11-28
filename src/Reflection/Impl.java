@@ -1,6 +1,6 @@
 package Reflection;
 
-@Resource(singltone = false)
+@Resource() // можно писать так: @Resource(singltone = false)
 public class Impl implements I {
     @Override
     public String getValue() {
