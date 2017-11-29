@@ -1,13 +1,13 @@
 package multithreading;
 
 //import Lessons7andAbove.ArrayList;
-import Lessons7andAbove.List;
 import Patterns.Pizza;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Pizzeria {
 
+    Order order;
 
     public static void main(String[] args) {
 
@@ -17,17 +17,23 @@ public class Pizzeria {
 
     }
     private static class Order{
-//        private final List<Pizza> order;
-//        enum position {INWAITER, INCOOKER}
-//
-//        public Order(Pizza[] pizza) {
-//            order = new ArrayList<>();
-//            order.
-//        }
+        private final List<Pizza> order;
+        public StatusOrder position;
+
+        public Order(Pizza[] pizza) {
+            this.order = new ArrayList<>(Arrays.asList(pizza));
+            position = StatusOrder.ORDERED;
+        }
     }
 
     public void addOrder(Pizza... pizza){
 
-//        Order order = new Order(pizza);
+        order = new Order(pizza);
+    }
+
+    enum StatusOrder{
+        ORDERED,
+        PREPARING,
+        READY;
     }
 }
