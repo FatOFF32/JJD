@@ -18,14 +18,14 @@ public class Pizzeria {
         waiter.setDaemon(true);
         waiter.start();
         while (waiter.getState() != Thread.State.WAITING){
-            // Подождем пока официант выйдет на работу и заснет...
+            // Подождем пока официант выйдет на работу и уснет...
         }
 
         Cooker cooker = new Cooker();
         cooker.setDaemon(true);
         cooker.start();
         while (cooker.getState() != Thread.State.WAITING){
-            // Подождем пока повор выйдет на работу и заснет...
+            // Подождем пока повор выйдет на работу и уснет...
         }
 
     }
