@@ -32,7 +32,7 @@ public class CoutingWordsThred {
         for (int i = 0; i < proc; i++) {
             // Запишем в массив потоки. В параметр запишем нужную часть часть массива строк для обработки.
             int frIdx = words.size() / proc * i;
-            int toIdx = i == proc - 1 ? words.size() : words.size() / proc * (i + 1);
+            int toIdx = i == proc - 1 ? words.size() : words.size() / proc * (i + 1) - 1;
             threads.add(new ReadWords(countWords, words.subList(frIdx, toIdx)));
         }
 

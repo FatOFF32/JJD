@@ -17,7 +17,7 @@ public class Pizza {
     private int becon;
     private int cheese;
 
-    public Pizza(Builder builder) {
+    private Pizza(Builder builder) {
         this.thick = builder.thick;
         this.becon = builder.becon;
         this.sausege = builder.sausege;
