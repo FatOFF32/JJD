@@ -41,17 +41,19 @@ public class Pizzeria {
 
         @Override
         public void run() {
-            while (true){
-                synchronized (order){
+            synchronized (order) {
+                while (true) {
                     try {
                         System.out.println("Официант сейчас уснет");
                         order.wait();
                         System.out.println("Официант проснулся");
-                        if (order.status == StatusOrder.ORDERED){
-                            order.status = StatusOrder.PREPARING;
-                            System.out.println("Ваш заказ принят и будет скоро готов!");
-                            order.notifyAll();
-                        }
+                        if (order.status != StatusOrder.ORDERED)
+                            continue;
+
+                        order.status = StatusOrder.PREPARING;
+                        System.out.println("Ваш заказ принят и будет скоро готов!");
+                        order.notifyAll();
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
