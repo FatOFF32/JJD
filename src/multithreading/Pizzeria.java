@@ -3,9 +3,25 @@ package multithreading;
 //import Lessons7andAbove.ArrayList;
 import Patterns.Pizza;
 
+/*
+* !!!!ВАЖНО!!!!
+* то как я реализовал пицерию, блокируя на одном объекте "order" и клиента и повора и афицианта, в корне не правильно!!! Потому что:
+* 1. Это мешает нам сделать несколько заказо (эта причина не главная, все можно реализовать)
+* 2. ГЛАВНАЯ ПРИЧИНА! Когда мы усыпляем несколько потоков на одном объекте, а затем будем через notifyAll,
+*       будятся все потоки, и начинается гонка (конкуренция за захват объекта) среди конкурирующих потоков.
+*       Каждый поток пытается захватить ресурс, если у него не получается (ресурс захвачен другим потоком),
+*       то данный поток зависает в ожидании на завате этого объекта. И так делают все потоки,
+*       и только после того как обьект освобождается, он захватывает его, проверяет свой флаг, и засыпает...
+*       Данная конкуренция очень дорогая операция для производительности системы, поэтому такой ситуации лучше не допускать (особенно когда много потоков)
+*
+* Как надо было этого избежать (примерно)! Клиент должен заснуть на поворе, повор на пицце, официант на клиенте.
+*/
+
 public class Pizzeria {
 
-    private Order order = Order.getEmpty();
+    // Все мониторы (то на чем блокируются потоки) должны быть final. Во избежании ошибки,
+    // когда мы усыпили поток на одном объекте, а затем объект поменяли, и потом будет спать вечно... (так было у меня)
+    private final Order order = Order.getEmpty();
 
 
     private Pizzeria() {
@@ -34,7 +50,7 @@ public class Pizzeria {
 
         Pizzeria pizzeria = new Pizzeria();
         Pizza pizza = pizzeria.buyPizza(true, NamePizza.MEAT);
-        System.out.println("Вот такая пицца получилась: " + pizza);
+        System.out.println(">>>> Вот такая пицца получилась: " + pizza);
 
     }
     private class Waiter extends Thread{
@@ -51,7 +67,7 @@ public class Pizzeria {
                             continue;
 
                         order.status = StatusOrder.PREPARING;
-                        System.out.println("Ваш заказ принят и будет скоро готов!");
+                        System.out.println(">>>> Ваш заказ принят и будет скоро готов!");
                         order.notifyAll();
 
                     } catch (InterruptedException e) {
@@ -87,7 +103,7 @@ public class Pizzeria {
                         Thread.sleep(5000);
 
                         order.status = StatusOrder.READY;
-                        System.out.println("Пицца готова, заберите заказ!");
+                        System.out.println(">>>> Пицца готова, заберите заказ!");
                         order.notifyAll();
 
                     } catch (InterruptedException e) {
@@ -119,7 +135,9 @@ public class Pizzeria {
 
     private Pizza buyPizza(boolean thic, NamePizza namePizza){
 
-        order = new Order(new Pizza.Builder(thic), namePizza);
+        order.namePizza = namePizza;
+        order.status = StatusOrder.ORDERED;
+        order.builder = new Pizza.Builder(thic);
 
         synchronized (order){
             order.notifyAll();
@@ -127,7 +145,7 @@ public class Pizzeria {
                 try {
                     order.wait();
                     if (order.status == StatusOrder.READY){
-                        System.out.println("Мммммм спасибо!!!");
+                        System.out.println(">>>> Мммммм спасибо!!!");
                         break;
                     }
                 } catch (InterruptedException e) {
