@@ -91,7 +91,7 @@ public class CoutingWordsThredBlockQeue {
 
                     if (line == stop)
                         break;
-                    
+
                     String[] lineWords =
                             line.toLowerCase() // перевод в нижний регистр
                                     .replaceAll("\\p{Punct}", " ")
