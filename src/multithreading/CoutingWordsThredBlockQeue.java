@@ -9,18 +9,28 @@ import java.util.concurrent.BlockingQueue;
 
 public class CoutingWordsThredBlockQeue {
 
+    int proc = Runtime.getRuntime().availableProcessors(); // Количество процессоров
+    // чтобы не вывалиться по нехватке памяти, очередь всегда надо ограничивать!
+    // Это может произовйсти если первый поток заполняет очередь быстрее чем остальные берут оттуда.
+    BlockingQueue<String> blockingСountWords = new ArrayBlockingQueue<>(20);
+    String stop = new String();
+    List<Thread> threads = new ArrayList<>();
+
+
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        int proc = Runtime.getRuntime().availableProcessors(); // Количество процессоров
         Map<String, Integer> countWords = new TreeMap(); // elfkb
-        // чтобы не вывалиться по нехватке памяти, очередь всегда надо ограничивать!
-        // Это может произовйсти если первый поток заполняет очередь быстрее чем остальные берут оттуда.
-        BlockingQueue<String> blockingСountWords = new ArrayBlockingQueue<>(20);
-        String stop = new String();
         List<String> words = new ArrayList<>(); // elfkbnm
-        List<Thread> threads = new ArrayList<>();
 
-        List<String> lines = Files.readAllLines(new File("D:\\Учеба JAVA\\ДЗ\\wp\\wp.txt").toPath());
+        CoutingWordsThredBlockQeue wp = new CoutingWordsThredBlockQeue();
+        wp.start("D:\\Учеба JAVA\\ДЗ\\wp\\wp.txt");
+
+
+
+    }
+
+    public void start(String fileName) throws IOException {
+        List<String> lines = Files.readAllLines(new File(fileName).toPath());
 
         for (int i = 0; i < proc; i++) {
             threads.add(new ReadWords(blockingСountWords, stop));
@@ -67,27 +77,24 @@ public class CoutingWordsThredBlockQeue {
         }
 
 
-
     }
-
-    static class ReadWords extends Thread{
+    protected class ReadWords extends Thread{
 
         Map<String, Integer> countWords = new HashMap<>();
         String line;
-        final String stop;
-        final BlockingQueue<String> blockingСountWordsGeneral;
+//        final String stop;
+//        final BlockingQueue<String> blockingСountWordsGeneral;
 
-        ReadWords(BlockingQueue<String> blockingСountWordsGeneral, String stop) {
-            this.stop = stop;
-            this.blockingСountWordsGeneral = blockingСountWordsGeneral;
-        }
+//        ReadWords(String line) {
+//            this.line = line;
+//        }
 
         @Override
         public void run() {
             // подсчитаем переданное количество слов
             try {
                 while (true){
-                    line = blockingСountWordsGeneral.take();
+                    line = blockingСountWords.take();
 
                     if (line == stop)
                         break;
@@ -100,14 +107,12 @@ public class CoutingWordsThredBlockQeue {
 
                     for (String word : lineWords)
                         if (word.length() > 0)
-                            words.add(word);
+                            countWords.merge(word, 1, (integer, integer2) -> integer + integer2);
                 }
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            for (String word : words)
-                countWords.merge(word, 1, (integer, integer2) -> integer + integer2);
             // загрузим обработанные слова в главную мапу
             synchronized (countWordsGeneral){
                 for (Map.Entry<String, Integer> entry : countWords.entrySet())
