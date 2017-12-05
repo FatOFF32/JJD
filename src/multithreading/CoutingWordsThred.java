@@ -14,7 +14,7 @@ public class CoutingWordsThred {
         List<String> words = new ArrayList<>();
         List<Thread> threads = new ArrayList<>();
 
-        List<String> lines = Files.readAllLines(new File("D:\\Учеба JAVA\\ДЗ\\wp\\wp.txt").toPath());
+        List<String> lines = Files.readAllLines(new File("D:\\Java\\Лекии_Задания\\wp\\wp.txt").toPath()); //"D:\\Учеба JAVA\\ДЗ\\wp\\wp.txt"
 
         for (String line : lines){
 
