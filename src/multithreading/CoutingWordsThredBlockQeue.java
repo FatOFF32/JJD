@@ -92,7 +92,7 @@ public class CoutingWordsThredBlockQeue {
         @Override
         public void run() {
             // подсчитаем переданное количество слов
-            while (true){
+            while (true) {
                 try {
                     line = blockingLine.take();
 
@@ -109,9 +109,9 @@ public class CoutingWordsThredBlockQeue {
                         if (word.length() > 0)
                             countWords.merge(word, 1, (integer, integer2) -> integer + integer2);
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             // загрузим обработанные слова в очередь для для последующего сбора
             resultHM.add(countWords);
