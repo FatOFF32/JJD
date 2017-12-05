@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.*;
 
-public class CoutingWordsThredBlockQeue {
+public class CoutingWordsThredExecutorService {
 
     int proc = Runtime.getRuntime().availableProcessors(); // Количество процессоров
     // чтобы не вывалиться по нехватке памяти, очередь всегда надо ограничивать!
@@ -16,12 +15,15 @@ public class CoutingWordsThredBlockQeue {
     BlockingQueue<Map<String, Integer>> resultHM = new ArrayBlockingQueue<>(proc);
     Map<String, Integer> countWords = new TreeMap();
     String stop = new String();
-    List<Thread> threads = new ArrayList<>();
+    //Collection<Runnable> threads = new ArrayList<>(); // пока не нужно
+
+    // Создадим пул потоков
+    ExecutorService pool = Executors.newFixedThreadPool(proc);
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        CoutingWordsThredBlockQeue wp = new CoutingWordsThredBlockQeue();
+        CoutingWordsThredExecutorService wp = new CoutingWordsThredExecutorService();
         wp.start("D:\\Учеба JAVA\\ДЗ\\wp\\wp.txt"); //"D:\Java\Лекии_Задания\wp\wp.txt"
 
         // Покажем максимально количество повторений
@@ -31,13 +33,7 @@ public class CoutingWordsThredBlockQeue {
     private void waitForCompletion(){
 
         // Подождем пока все выполнится
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        pool.shutdown();
 
         // Заполним результирующую мапу
         for (Map<String, Integer> map : resultHM)
@@ -67,23 +63,25 @@ public class CoutingWordsThredBlockQeue {
 
         List<String> lines = Files.readAllLines(new File(fileName).toPath());
 
-        for (int i = 0; i < proc; i++) {
-            threads.add(new ReadWords());
-        }
+//        for (int i = 0; i < proc; i++) { // Так не работает!
+//            threads.add(new ReadWords());
+//        }
+//        pool.invokeAll(threads);
 
-        // Запустим потоки
-        for (Thread thread : threads)
-            thread.start();
+        for (int i = 0; i < proc; i++)
+            pool.submit(new ReadWords());
 
+        // Добавим в очередь строки
         for (String line : lines)
             blockingLine.put(line);
 
+        // добавим стопы
         for (int i = 0; i < proc; i++)
             blockingLine.put(stop);
 
 
     }
-    protected class ReadWords extends Thread{
+    protected class ReadWords implements Runnable{
 
         Map<String, Integer> countWords = new HashMap<>();
         String line;

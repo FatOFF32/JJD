@@ -60,9 +60,9 @@ public class Pizzeria {
             synchronized (order) {
                 while (true) {
                     try {
-                        System.out.println("Официант сейчас уснет");
+//                        System.out.println("Официант сейчас уснет");
                         order.wait();
-                        System.out.println("Официант проснулся");
+//                        System.out.println("Официант проснулся");
                         if (order.status != StatusOrder.ORDERED)
                             continue;
 
@@ -82,11 +82,13 @@ public class Pizzeria {
         @Override
         public void run() {
             synchronized (order){
-                while (true){
+                // Проверяем флаг: не было ли выполение потока прервано,
+                // если да, то выходим
+                while (!Thread.currentThread().isInterrupted()) {
                     try {
-                        System.out.println("Повар сейчас уснет");
+//                        System.out.println("Повар сейчас уснет");
                         order.wait();
-                        System.out.println("Повар проснулся");
+//                        System.out.println("Повар проснулся");
                         if (order.status != StatusOrder.PREPARING)
                             continue;
 
@@ -107,6 +109,10 @@ public class Pizzeria {
                         order.notifyAll();
 
                     } catch (InterruptedException e) {
+                        // Если выбрасывается исключение InterruptedException,
+                        // то флаг (isInterrupted()) не переводится в true. Для этого
+                        // вручную вызывается метод interrupt() у текущего потока.
+                        Thread.currentThread().interrupt();
                         e.printStackTrace();
                     }
                 }
@@ -141,7 +147,9 @@ public class Pizzeria {
 
         synchronized (order){
             order.notifyAll();
-            while (true){
+            // Проверяем флаг: не было ли выполение потока прервано,
+            // если да, то выходим
+            while (!Thread.currentThread().isInterrupted()) {
                 try {
                     order.wait();
                     if (order.status == StatusOrder.READY){
@@ -149,6 +157,10 @@ public class Pizzeria {
                         break;
                     }
                 } catch (InterruptedException e) {
+                    // Если выбрасывается исключение InterruptedException,
+                    // то флаг (isInterrupted()) не переводится в true. Для этого
+                    // вручную вызывается метод interrupt() у текущего потока.
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
                 }
             }
