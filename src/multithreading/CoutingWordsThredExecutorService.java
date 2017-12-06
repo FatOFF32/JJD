@@ -15,7 +15,7 @@ public class CoutingWordsThredExecutorService {
     BlockingQueue<Map<String, Integer>> resultHM = new ArrayBlockingQueue<>(proc);
     Map<String, Integer> countWords = new TreeMap();
     String stop = new String();
-    List<Future> futures = new ArrayList<>(); 
+    List<Future> futures = new ArrayList<>();
 
     // Создадим пул потоков
     ExecutorService pool = Executors.newFixedThreadPool(proc);
@@ -81,7 +81,7 @@ public class CoutingWordsThredExecutorService {
 
 
     }
-    protected class ReadWords implements Callable{
+    protected class ReadWords implements Callable<Map<String, Integer>>{
 
         Map<String, Integer> countWords = new HashMap<>();
         String line;
