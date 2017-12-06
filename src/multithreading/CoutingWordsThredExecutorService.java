@@ -15,7 +15,7 @@ public class CoutingWordsThredExecutorService {
     BlockingQueue<Map<String, Integer>> resultHM = new ArrayBlockingQueue<>(proc);
     Map<String, Integer> countWords = new TreeMap();
     String stop = new String();
-    //Collection<Runnable> threads = new ArrayList<>(); // пока не нужно
+    List<Future> futures = new ArrayList<>(); 
 
     // Создадим пул потоков
     ExecutorService pool = Executors.newFixedThreadPool(proc);
@@ -81,14 +81,14 @@ public class CoutingWordsThredExecutorService {
 
 
     }
-    protected class ReadWords implements Runnable{
+    protected class ReadWords implements Callable{
 
         Map<String, Integer> countWords = new HashMap<>();
         String line;
 
         // подсчитаем переданное количество слов
         @Override
-        public void run() {
+        public Map<String, Integer> call() {
 
             // Проверяем флаг: не было ли выполение потока прервано,
             // если да, то выходим
@@ -118,7 +118,7 @@ public class CoutingWordsThredExecutorService {
                 }
             }
             // загрузим обработанные слова в очередь для для последующего сбора
-            resultHM.add(countWords);
+           return countWords;
         }
     }
 
