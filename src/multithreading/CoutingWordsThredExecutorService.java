@@ -12,10 +12,9 @@ public class CoutingWordsThredExecutorService {
     // чтобы не вывалиться по нехватке памяти, очередь всегда надо ограничивать!
     // Это может произовйсти если первый поток заполняет очередь быстрее чем остальные берут оттуда.
     BlockingQueue<String> blockingLine = new ArrayBlockingQueue<>(20);
-    BlockingQueue<Map<String, Integer>> resultHM = new ArrayBlockingQueue<>(proc);
     Map<String, Integer> countWords = new TreeMap();
     String stop = new String();
-    List<Future> futures = new ArrayList<>();
+    List<Future<Map<String, Integer>>> futures = new ArrayList<>();
 
     // Создадим пул потоков
     ExecutorService pool = Executors.newFixedThreadPool(proc);
@@ -30,22 +29,31 @@ public class CoutingWordsThredExecutorService {
         wp.showMaxRepead(10); // последние 10
     }
 
-    private void waitForCompletion(){
+    private void waitForCompletion() throws ExecutionException, InterruptedException {
 
         // Подождем пока все выполнится
         pool.shutdown();
 
         // Заполним результирующую мапу
-        for (Map<String, Integer> map : resultHM)
-            for (Map.Entry<String, Integer> entry : map.entrySet())
+        //Map<String, Integer> map; // Спросить, нужно ли это делать через отдельную переменную, или можно так  for (Map<String, Integer> map : future.get())
+        for (Future<Map<String, Integer>> future : futures){
+            //map = future.get();
+            for (Map.Entry<String, Integer> entry : future.get().entrySet())
                 countWords.merge(entry.getKey(), entry.getValue(), (integer, integer2) -> integer + integer2);
+        }
 
     }
 
     public void showMaxRepead(int size){
 
         // Подождем пока все выполнится
-        waitForCompletion();
+        try {
+            waitForCompletion();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Создадим лист entrySet из мапы, и отсортируем коллекцию по значению
         List<Map.Entry<String, Integer>> listResult = new ArrayList(countWords.entrySet());
@@ -63,13 +71,9 @@ public class CoutingWordsThredExecutorService {
 
         List<String> lines = Files.readAllLines(new File(fileName).toPath());
 
-//        for (int i = 0; i < proc; i++) { // Так не работает!
-//            threads.add(new ReadWords());
-//        }
-//        pool.invokeAll(threads);
-
         for (int i = 0; i < proc; i++)
-            pool.submit(new ReadWords());
+            futures.add(pool.submit(new ReadWords()));
+        //pool.invokeAll(); // можно и так добавить коллекцию фич
 
         // Добавим в очередь строки
         for (String line : lines)
@@ -81,7 +85,7 @@ public class CoutingWordsThredExecutorService {
 
 
     }
-    protected class ReadWords implements Callable<Map<String, Integer>>{
+    protected class ReadWords implements Callable<Map<String, Integer>>{ // Джинерик ещё можно типизировать так
 
         Map<String, Integer> countWords = new HashMap<>();
         String line;
@@ -117,7 +121,7 @@ public class CoutingWordsThredExecutorService {
                     e.printStackTrace();
                 }
             }
-            // загрузим обработанные слова в очередь для для последующего сбора
+            // Вернём обработанные слова
            return countWords;
         }
     }
