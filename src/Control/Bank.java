@@ -1,18 +1,21 @@
 package Control;
 
-import Reflection.A;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
 
 public class Bank {
 
-    static BlockingQueue<Mail> mails = new ArrayBlockingQueue<Mail>(100);
+    BlockingQueue<Mail> mails = new ArrayBlockingQueue<Mail>(100);
     Map<Integer, User> accUsers = new HashMap<>();
     Map<Integer, User> users = new HashMap<>();
+    ExecutorService pool = Executors.newFixedThreadPool(4);
     int curUserId = 0;
     int curAccId = 0;
+
+    public Bank() {
+        pool.submit(new Mailer());
+    }
 
     public static void main(String[] args) {
 
@@ -22,19 +25,28 @@ public class Bank {
         Account acc3 = bank.addAccount(bank.addUser("Вася"), 150);
         int idPetya = bank.addUser("Петя"); // Для проверки аккаунтов
         Account acc4 = bank.addAccount(idPetya, 200);
-        Account acc5 = bank.addAccount(idPetya, 200);
+        Account acc5 = bank.addAccount(idPetya, 300);
 
-        ExecutorService pool = Executors.newFixedThreadPool(3);
-        pool.submit(new Transaction(acc1, acc2, 30));
-        pool.submit(new Transaction(acc2, acc1, 10));
-        pool.submit(new Transaction(acc5, acc3, 40));
-        pool.submit(new Transaction(acc4, acc2, 1000));
+        bank.addTransaction(acc1, acc2, 30);
+        bank.addTransaction(acc2, acc1, 10);
+        bank.addTransaction(acc5, acc3, 40);
+        // Попытка задедлочить
+        bank.addTransaction(acc4, acc2, 1000);
+        bank.addTransaction(acc2, acc4, 11);
+        bank.addTransaction(acc4, acc2, 22);
+        bank.addTransaction(acc5, acc2, 60);
+        bank.addTransaction(acc4, acc3, 40);
+        bank.addTransaction(acc1, acc2, 100);
 
+    }
+
+    void addTransaction(Account src, Account dest, int amount){
+        pool.submit(new Transaction(src, dest, amount));
     }
 
     int addUser(String name){
         curUserId++;
-        users.put(curUserId, new User(name));
+        users.put(curUserId, new User(curUserId, name));
         return curUserId;
     }
 
@@ -44,7 +56,7 @@ public class Bank {
         return new Account(curAccId, balans, userId);
     }
 
-    static class Transaction extends Thread{
+    class Transaction extends Thread{
         Account src;
         Account dest;
         int amount;
@@ -59,14 +71,15 @@ public class Bank {
         public void run() {
             try {
                 if (transferMoney(src, dest, amount) == TxResult.NOT_ENOUGN)
-                    System.out.println("Чувааак, что ты делаешь? У тебя нет столько денег!");
+                    System.out.println("Операция не успешна! У пользователя: " + users.get(src.userID) +
+                            " в кошельке " + src.balans + ", а требуется для перевода: " + amount);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static TxResult transferMoney(Account src, Account dest, int amount) throws InterruptedException {
+    public TxResult transferMoney(Account src, Account dest, int amount) throws InterruptedException {
 
         if (src.balans < amount)
             return TxResult.NOT_ENOUGN;
@@ -103,12 +116,12 @@ public class Bank {
         public void run() {
             Mail mail;
             User user;
-            while (Thread.currentThread().isInterrupted()){
+            while (!Thread.currentThread().isInterrupted()){
                 try {
                     mail = mails.take();
                     user = accUsers.get(mail.idAccount);
                     if (user != null)
-                        System.out.println("Пользователь: " + user.name + "Сообщение:" + mail.mes);
+                        System.out.println("Пользователь: " + user.name + ", Сообщение: " + mail.mes);
 
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -145,7 +158,16 @@ public class Bank {
         int id;
         String name;
 
-        public User(String name) {
+        @Override
+        public String toString() {
+            return "User{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
+
+        public User(int id, String name) {
+            this.id = id;
             this.name = name;
         }
     }
