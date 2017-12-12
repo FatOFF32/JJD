@@ -8,3 +8,6 @@
 8. Как по умолчанию работает Arrays.sort() без компоратора?
 
 9. Как получить 1111111 в byte
+
+
+10. Почему Map<Integer, Set<String>> result =   .collect(groupingBy(word -> word.length())); Не работает?
