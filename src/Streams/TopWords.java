@@ -23,11 +23,11 @@ public class TopWords {
                 .flatMap(line -> Arrays.stream(line.split("\\s"))) // Ищем пробелы и разбиваем на массив строк, преобразуем в стримы (\s - пробельный символ, т.е. [ \t\n\x0B\f\r];)
                 .map(String::trim) // Для каждого стрима, который уже соджержит слова вызываем трим (СокрЛП()) ;)
                 .filter(word -> !"".equals(word)) // Наложим фильтр, удалим пустые слова...
-                .collect(groupingBy(word -> word.length())); // Создадим коллекции слов по длинне.
-//                .entrySet().parallelStream() // Создадим паралельный стрим ентрисетов
-//                .sorted(Comparator.comparing(Map.Entry::getKey)) // Сортируем по значению ключа. В такую конструкцию система приводит из (o1, o2) -> o1.getKey().compareTo(o2.getKey())
-//                .limit(10) // Оставим 10 элементов после сортировки
-//                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue)); // Соберем мапу после сортировки и обрезки
+                .collect(groupingBy(word -> word.length())) // Создадим коллекции слов по длинне.
+                .entrySet().parallelStream() // Создадим паралельный стрим ентрисетов
+                .sorted((o1, o2) -> o2.getKey().compareTo(o1.getKey())) // Сортируем по значению ключа. В такую конструкцию (Comparator.comparing(Map.Entry::getKey)) система приводит из (o1, o2) -> o1.getKey().compareTo(o2.getKey())
+                .limit(10) // Оставим 10 элементов после сортировки
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue)); // Соберем мапу после сортировки и обрезки
 
         System.out.println(result);
 
